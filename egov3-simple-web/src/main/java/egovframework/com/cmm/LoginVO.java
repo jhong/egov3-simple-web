@@ -2,6 +2,8 @@ package egovframework.com.cmm;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 /**
  * @Class Name : LoginVO.java
  * @Description : Login VO class
@@ -245,6 +247,14 @@ public class LoginVO implements Serializable{
 	 */
 	public void setOrgnztNm(String orgnztNm) {
 		this.orgnztNm = orgnztNm;
+	}
+	
+	/**
+	 * toString
+	 * @return String
+	 */
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 	
 }

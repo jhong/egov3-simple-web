@@ -21,7 +21,7 @@
 	<bean id="egovUserDetailsHelper" class="egovframework.com.cmm.util.EgovUserDetailsHelper">
         <property name="egovUserDetailsService">
         	<!-- 원하는 bean id를 아래에 ref 태그에 적용한다 -->
-            <ref bean="egovUserDetailsSessionService" />
+            <ref bean="egovUserDetailsSecurityService" />
         </property>
     </bean>
 
@@ -31,10 +31,10 @@
 	-->
 
     <!-- 1. 세션을 이용한 인증을 사용하는 빈 -->
+    <!--
     <bean id="egovUserDetailsSessionService" class="egovframework.com.cmm.service.impl.EgovUserDetailsSessionServiceImpl"/>
+	-->
 
     <!-- 2. 스프링 시큐리티를 이용한 인증을 사용할 빈 -->
-    <!--
     <bean id="egovUserDetailsSecurityService" class="egovframework.com.sec.ram.service.impl.EgovUserDetailsSecurityServiceImpl"/>
-	-->
 </beans>

@@ -149,7 +149,6 @@
     </servlet-mapping>
 
     <!-- 1. 스프링 시큐리티 설정-->
-    <!--
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -162,7 +161,6 @@
     <listener>
         <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
     </listener>
-    -->
 
     <!-- 2. EgovSSO 로그아웃 설정을 위한 필터 설정 -->
     <!--
@@ -194,7 +192,6 @@
     -->
 
     <!-- 3. Spring Security 로그아웃 설정을 위한 필터 설정 -->
-    <!--
     <filter>
         <filter-name>EgovSpringSecurityLogoutFilter</filter-name>
         <filter-class>egovframework.com.sec.security.filter.EgovSpringSecurityLogoutFilter</filter-class>
@@ -203,10 +200,8 @@
         <filter-name>EgovSpringSecurityLogoutFilter</filter-name>
         <url-pattern>/uat/uia/actionLogout.do</url-pattern>
     </filter-mapping>
-    -->
 
     <!-- 3. Spring Security 로그인 설정을 위한 필터 설정 -->
-    <!--
     <filter>
         <filter-name>EgovSpringSecurityLoginFilter</filter-name>
         <filter-class>egovframework.com.sec.security.filter.EgovSpringSecurityLoginFilter</filter-class>
@@ -225,7 +220,6 @@
         <filter-name>EgovSpringSecurityLoginFilter</filter-name>
         <url-pattern>*.do</url-pattern>
     </filter-mapping>
-    -->
 
     <!-- 서비스 부분에서 HttpServletRequest 정보 얻기 -->
     <listener>
