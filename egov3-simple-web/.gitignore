@@ -1,1 +1,12 @@
 /target/
+/src/main/resources/egovframework/egovProps/globals.properties
+
+/src/main/java/egovframework/com/cmm/AltibaseClobStringTypeHandler.java
+/src/main/resources/egovframework/sqlmap/config/altibase/
+/src/main/resources/egovframework/sqlmap/config/cubrid/
+/src/main/resources/egovframework/sqlmap/config/tibero/
+/src/main/resources/egovframework/sqlmap/*/*/*/*_Altibase.xml
+/src/main/resources/egovframework/sqlmap/*/*/*/*_Cubrid.xml
+/src/main/resources/egovframework/sqlmap/*/*/*/*_Tibero.xml
+
+/src/main/webapp/html/egovframework/com/cmm/utl/htmlarea3.0/
