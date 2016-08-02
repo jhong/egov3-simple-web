@@ -4,6 +4,13 @@
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d %5p [%c] %m%n" />
         </Console>
+		<RollingFile name="logFile" fileName="C:/logs/egov3-simple-web.log" filePattern="C:/logs/egov3-simple-web.log.%d{yyyy-MM-dd-HH-mm-ss}">
+			<PatternLayout pattern="%d %5p [%c] %m%n" />
+			<Policies>
+				<!-- interval(default 1)이므로 1초 간격으로 rolling 수행 -->   
+				<TimeBasedTriggeringPolicy interval="3600" />
+			</Policies>
+		</RollingFile>
     </Appenders>
     <Loggers>
         <Logger name="java.sql" level="DEBUG" additivity="false">
@@ -19,8 +26,13 @@
 	    <Logger name="org.springframework" level="DEBUG" additivity="false">
 	        <AppenderRef ref="console" />
 	    </Logger>
-        <Root level="ERROR">
+	    <Logger name="sample" level="DEBUG" additivity="false">
+	        <AppenderRef ref="console" />
+	        <AppenderRef ref="logFile" />
+	    </Logger>
+        <Root level="DEBUG">
             <AppenderRef ref="console" />
+            <AppenderRef ref="logFile" />
         </Root>
     </Loggers>
 </Configuration>
