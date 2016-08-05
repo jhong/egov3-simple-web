@@ -113,6 +113,7 @@ public class EgovLoginController {
 		// 1. 일반 로그인 처리
 		LoginVO resultVO = loginService.actionLogin(loginVO);
 
+		/*
 		if (resultVO != null && resultVO.getId() != null && !resultVO.getId().equals("")) {
 
 			// 2-1. 로그인 정보를 세션에 저장
@@ -124,6 +125,14 @@ public class EgovLoginController {
 			model.addAttribute("message", egovMessageSource.getMessage("fail.common.login"));
 			return "egovframework/com/uat/uia/EgovLoginUsr";
 		}
+		*/
+		
+		model.put("resultVO", resultVO);
+		LOGGER.debug("actionLogin() resultVO={}", resultVO);
+
+		// jsp 페이지에서 post 방식으로 /j_spring_security_check 호출
+		model.put("loginProcessingUrl", "/j_spring_security_check");
+		return "sample/login-forms/security-login-page";
 	}
 
 	/**
@@ -275,15 +284,17 @@ public class EgovLoginController {
 	@RequestMapping(value = "/uat/uia/actionLogout.do")
 	public String actionLogout(HttpServletRequest request, ModelMap model) throws Exception {
 
-		/*String userIp = EgovClntInfo.getClntIP(request);
-
-		// 1. Security 연동
-		return "redirect:/j_spring_security_logout";*/
-
-		request.getSession().setAttribute("loginVO", null);
-
-		//return "redirect:/egovDevIndex.jsp";
-		return "redirect:/EgovContent.do";
+//		/*String userIp = EgovClntInfo.getClntIP(request);
+//
+//		// 1. Security 연동
+//		return "redirect:/j_spring_security_logout";*/
+//
+//		request.getSession().setAttribute("loginVO", null);
+//
+//		//return "redirect:/egovDevIndex.jsp";
+//		return "redirect:/EgovContent.do";
+		
+		return "redirect:/j_spring_security_logout";
 	}
 
 	/**

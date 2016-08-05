@@ -5,6 +5,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
+	<debug/>
+
 	<beans:bean id="securedObjectService" class="egovframework.rte.fdl.security.securedobject.impl.SecuredObjectServiceImpl">
 		<beans:property name="securedObjectDAO" ref="securedObjectDAO"/>
 		<beans:property name="requestMatcherType" value="regex"/>	<!--  default : ant -->
@@ -97,7 +99,7 @@
 		</beans:property>
 	</beans:bean>
 	-->
- 
+
 	<beans:bean id="filterSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">	
 		<beans:property name="authenticationManager" ref="org.springframework.security.authenticationManager" />
 		<beans:property name="accessDecisionManager" ref="org.springframework.security.access.vote.AffirmativeBased#0" />
@@ -124,8 +126,34 @@
  	<http pattern="/html/＊＊" security="none"/>
     <http pattern="/images/＊＊" security="none"/>
  	<http pattern="/js/＊＊" security="none"/>
- 	<http pattern="\A/WEB-INF/jsp/.*\Z" request-matcher="regex" security="none"/> 	
- 
+ 	<http pattern="\A/WEB-INF/jsp/.*\Z" request-matcher="regex" security="none"/>
+ 	
+    <http name="admin" pattern="/admin/*" request-matcher="ant"  auto-config="true" use-expressions="false">
+        <intercept-url pattern="/admin/home" access="ROLE_ADMIN" />
+        <intercept-url pattern="/admin/users" access="ROLE_ADMIN" />
+
+        <form-login login-page="/admin/login"  
+					always-use-default-target="false"
+					login-processing-url="/admin/j_spring_security_check"
+					default-target-url="/admin/home"
+					authentication-failure-url="/admin/login?loginStatus=login_error_admin" />
+        <logout logout-url="/admin/logout" logout-success-url="/admin/login?loginStatus=logout"/>
+    </http>
+
+	<http name="member" pattern="/member/*" auto-config="true" use-expressions="false">
+		
+		<intercept-url pattern="/member/home" access="IS_AUTHENTICATED_FULLY" />
+		<intercept-url pattern="/member/account" access="IS_AUTHENTICATED_FULLY" />
+		<intercept-url pattern="/member/orders" access="IS_AUTHENTICATED_FULLY" />
+		
+		<form-login login-page="/member/login" 
+					always-use-default-target="false"
+					login-processing-url="/member/j_spring_security_check"
+					default-target-url="/member/home"
+					authentication-failure-url="/member/login?loginStatus=login_error_member1" />
+		<logout logout-url="/member/logout" logout-success-url="/member/login?loginStatus=logout"/>
+	</http>
+
 	<http access-denied-page="/sec/ram/accessDenied.do" request-matcher="regex">
 		<form-login login-processing-url="/j_spring_security_check"
 					authentication-failure-url="/uat/uia/egovLoginUsr.do?login_error=1"
@@ -135,15 +163,15 @@
 		<anonymous/>
 		<logout logout-url="/uat/uia/actionLogout.do" invalidate-session="false" logout-success-url="/EgovContent.do"/>
  
-		<!-- for authorization -->
+		<!-- for authorization -->  
 		<custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="filterSecurityInterceptor"/>
 	</http>
- 
+
 	<!--
 	authentication-manager 기본 생성 bean id :  org.springframework.security.authenticationManager
 		(alias로 변경할 수 있음)
 	-->
-	<authentication-manager>
+	<authentication-manager alias="authenticationManager">
 		<authentication-provider user-service-ref="jdbcUserService">
 			<!--
 			<password-encoder  hash="sha-256" base64="true"/>
@@ -181,8 +209,6 @@
 	-->
 
 	<beans:bean id="jdbcUserService" class="egovframework.rte.fdl.security.userdetails.jdbc.EgovJdbcUserDetailsManager" >
-	<!--<beans:bean id="jdbcUserService" class="sample.cmm.login.service.SampleJdbcUserDetailsManager" >-->
-		<!--  SampleJdbcUserDetailsManager 클래스에서 직접 SCRM 테이블 조회하도록 변경 -->
 		<beans:property name="usersByUsernameQuery" value="SELECT USER_ID, ESNTL_ID AS PASSWORD, 1 ENABLED, USER_NM, USER_ZIP,  
                                                               USER_ADRES, USER_EMAIL, USER_SE, ORGNZT_ID, ESNTL_ID,
                                                               (select a.ORGNZT_NM from COMTNORGNZTINFO a where a.ORGNZT_ID = m.ORGNZT_ID) ORGNZT_NM
