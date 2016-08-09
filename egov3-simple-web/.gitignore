@@ -9,4 +9,8 @@
 /src/main/resources/egovframework/sqlmap/*/*/*/*_Cubrid.xml
 /src/main/resources/egovframework/sqlmap/*/*/*/*_Tibero.xml
 
-/src/main/webapp/html/egovframework/com/cmm/utl/htmlarea3.0/
+//src/main/resources/egovframework/sqlmap/*/*/*/*/*_Altibase.xml
+/src/main/resources/egovframework/sqlmap/*/*/*/*/*_Cubrid.xml
+/src/main/resources/egovframework/sqlmap/*/*/*/*/*_Tibero.xml
+
+src/main/webapp/html/egovframework/com/cmm/utl/htmlarea3.0/

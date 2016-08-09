@@ -6,15 +6,16 @@
 		<context:exclude-filter expression="org.springframework.stereotype.Repository" type="annotation"/>
 	</context:component-scan>
 	
+	<!-- 주석 해제하면 css, js 등 resources 404 오류 발생 (2016.08.08)
+	<mvc:annotation-driven />
+	-->
 
 	<!-- [web.xml]에서 url-pattern "/" 사용할 경우 아래 반드시 추가해야 함 -->
 	<mvc:resources location="/css/" mapping="/css/**"/>
 	<mvc:resources location="/html/" mapping="/html/**"/>
 	<mvc:resources location="/images/" mapping="/images/**"/>
 	<mvc:resources location="/js/" mapping="/js/**"/>
-	<mvc:resources location="/fonts/" mapping="/fonts/**"/>
-
-	<mvc:annotation-driven />
+	<mvc:resources location="/resource/" mapping="/resource/**"/>
 
 	<!-- For Pagination Tag 
 	<bean class="egovframework.com.cmm.ImagePaginationRenderer" id="imageRenderer"/>
