@@ -1,5 +1,6 @@
 /target/
 /src/main/resources/egovframework/egovProps/globals.properties
+/src/test/resources/egovframeworktest/egovProps/globals.properties
 
 /src/main/java/egovframework/com/cmm/AltibaseClobStringTypeHandler.java
 /src/main/resources/egovframework/sqlmap/config/altibase/

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition name="layouts-default-list" template="/WEB-INF/tiles/sample/default/layouts-tiles-list.jsp">
+        <put-attribute name="header" value="/WEB-INF/tiles/sample/default/include_header.jsp" />
+        <put-attribute name="left" value="/WEB-INF/tiles/sample/default/include_left.jsp" />
+        <put-attribute name="content" value="" />
+        <put-attribute name="content_include" value="" />
+        <put-attribute name="footer" value="/WEB-INF/tiles/sample/default/include_footer.jsp" />
+    </definition>
+
+    <definition name="layouts-default-edit" template="/WEB-INF/tiles/sample/default/layouts-tiles-edit.jsp">
+        <put-attribute name="header" value="/WEB-INF/tiles/sample/default/include_header.jsp" />
+        <put-attribute name="left" value="/WEB-INF/tiles/sample/default/include_left.jsp" />
+        <put-attribute name="content" value="" />
+        <put-attribute name="content_include" value="" />
+        <put-attribute name="footer" value="/WEB-INF/tiles/sample/default/include_footer.jsp" />
+    </definition>
+
+    <definition name="layouts-default-view" template="/WEB-INF/tiles/sample/default/layouts-tiles-view.jsp">
+        <put-attribute name="header" value="/WEB-INF/tiles/sample/default/include_header.jsp" />
+        <put-attribute name="left" value="/WEB-INF/tiles/sample/default/include_left.jsp" />
+        <put-attribute name="content" value="" />
+        <put-attribute name="content_include" value="" />
+        <put-attribute name="footer" value="/WEB-INF/tiles/sample/default/include_footer.jsp" />
+    </definition>
+
+    <definition name="layouts-default-popup" template="/WEB-INF/tiles/sample/default/layouts-tiles-popup.jsp">
+        <put-attribute name="content" value="" />
+        <put-attribute name="content_include" value="" />
+    </definition>
+
+    <definition name="layouts-default-blank" template="/WEB-INF/tiles/sample/default/layouts-tiles-blank.jsp">
+        <put-attribute name="content" value="" />
+    </definition>
+
+    <definition name="layouts-default-pdf" template="/WEB-INF/tiles/sample/default/layouts-tiles-pdf.jsp">
+        <put-attribute name="content" value="" />
+    </definition>
+
+    <definition name="layouts-default-printer" template="/WEB-INF/tiles/sample/default/layouts-tiles-printer.jsp">
+        <put-attribute name="content" value="" />
+    </definition>
+
+    <definition name="default_list/sample/**/*.tiles" extends="layouts-default-list">
+        <put-attribute name="content" value="/WEB-INF/jsp/sample/{1}/{2}.jsp" />
+        <put-attribute name="content_include" value="/WEB-INF/jsp/sample/{1}/include/{2}.jsp" />
+    </definition>
+
+    <definition name="default_edit/sample/**/*.tiles" extends="layouts-default-edit">
+        <put-attribute name="content" value="/WEB-INF/jsp/sample/{1}/{2}.jsp" />
+        <put-attribute name="content_include" value="/WEB-INF/jsp/sample/{1}/include/{2}.jsp" />
+    </definition>
+
+    <definition name="default_view/sample/**/*.tiles" extends="layouts-default-view">
+        <put-attribute name="content" value="/WEB-INF/jsp/sample/{1}/{2}.jsp" />
+        <put-attribute name="content_include" value="/WEB-INF/jsp/sample/{1}/include/{2}.jsp" />
+    </definition>
+
+    <definition name="default_view/sample/*/**/*.tiles" extends="layouts-default-view">
+        <put-attribute name="content" value="/WEB-INF/jsp/sample/{1}/{2}/{3}.jsp" />
+        <put-attribute name="content_include" value="/WEB-INF/jsp/sample/{1}/{2}/include/{3}.jsp" />
+    </definition>
+
+    <definition name="default_popup/sample/**/*.tiles" extends="layouts-default-popup">
+        <put-attribute name="content" value="/WEB-INF/jsp/sample/{1}/{2}.jsp" />
+        <put-attribute name="content_include" value="/WEB-INF/jsp/sample/{1}/include/{2}.jsp" />
+    </definition>
+
+    <definition name="default_blank/sample/*/*.tiles" extends="layouts-default-blank">
+        <put-attribute name="content" value="/WEB-INF/jsp/sample/{1}/{2}.jsp" />
+        <put-attribute name="content_include" value="/WEB-INF/jsp/sample/{1}/include/{2}.jsp" />
+    </definition>
+
+    <definition name="default_blank/sample/*/**/*.tiles" extends="layouts-default-blank">
+        <put-attribute name="content" value="/WEB-INF/jsp/sample/{1}/{2}/{3}.jsp" />
+        <put-attribute name="content_include" value="/WEB-INF/jsp/sample/{1}/{2}/include/{3}.jsp" />
+    </definition>
+
+    <definition name="default_pdf/sample/*/*.tiles" extends="layouts-default-pdf">
+        <put-attribute name="content" value="/WEB-INF/jsp/sample/{1}/{2}.jsp" />
+        <put-attribute name="content_include" value="/WEB-INF/jsp/sample/{1}/include/{2}.jsp" />
+    </definition>
+
+    <definition name="default_pdf/sample/*/**/*.tiles" extends="layouts-default-pdf">
+        <put-attribute name="content" value="/WEB-INF/jsp/sample/{1}/{2}/{3}.jsp" />
+        <put-attribute name="content_include" value="/WEB-INF/jsp/sample/{1}/{2}/include/{3}.jsp" />
+    </definition>
+
+    <definition name="default_printer/sample/**/*.tiles" extends="layouts-default-printer">
+        <put-attribute name="content" value="/WEB-INF/jsp/sample/{1}/{2}.jsp" />
+    </definition>
+
+    
+ 
+</tiles-definitions>
