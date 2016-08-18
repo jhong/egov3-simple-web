@@ -245,7 +245,10 @@ $(document).ready(function(){
 <!--// e: table -->
 
 <div class="btn_rwrap">				
-	<button type="button" class="btn_mbl" onclick="fnRegist();">등록</button><button type="button" class="btn_mg">다른버튼</button>
+	<button type="button" class="btn_mbl" onclick="fnRegist();">등록</button>
+	<%--
+	<button type="button" class="btn_mg">다른버튼</button>
+	--%>
 </div>
 
 <!-- s: paging //-->

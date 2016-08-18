@@ -15,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import sample.bbs.service.SampleBbs;
@@ -22,7 +24,11 @@ import sample.bbs.service.SampleBbsService;
 import sample.bbs.service.SampleBbsVO;
 import sample.bbs.service.SampleBbsValidator;
 import sample.cmm.service.SiteVO;
+import sample.cmm.util.SampleStringUtil;
 import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.service.EgovFileMngService;
+import egovframework.com.cmm.service.EgovFileMngUtil;
+import egovframework.com.cmm.service.FileVO;
 import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -54,6 +60,12 @@ public class SampleBbsController {
 	@Autowired
 	private SampleBbsValidator sampleBbsValidator;
     
+    @Resource(name = "EgovFileMngService")
+    private EgovFileMngService fileMngService;
+
+    @Resource(name = "EgovFileMngUtil")
+    private EgovFileMngUtil fileUtil;
+
     
 	/**
 	 * 게시판  등록화면을 조회한다.
@@ -109,7 +121,8 @@ public class SampleBbsController {
 	 */
     @RequestMapping(value="/bbs/SampleBbsRegist.do")
 	public String insertSampleBbs (
-			@ModelAttribute("sampleBbs") SampleBbs sampleBbs
+			final MultipartHttpServletRequest multiRequest
+			, @ModelAttribute("sampleBbs") SampleBbs sampleBbs
 			, BindingResult bindingResult
 			, RedirectAttributes redirectAttributes
 			, @RequestParam Map<?, ?> commandMap
@@ -137,7 +150,26 @@ public class SampleBbsController {
 		if (isAuthenticated) {
 //			if (EgovDoubleSubmitHelper.checkAndSaveToken()) { // 이중등록(Double Submit) 방지
 			
-//				sampleBbs.set(user.getUniqId()); // TODO: 등록자ID 필드 세팅하기
+			final Map<String, MultipartFile> files = multiRequest.getFileMap();
+			if (!files.isEmpty()) {
+				String atchFileId = sampleBbs.getAtchFileId();
+				if (SampleStringUtil.isEmpty(atchFileId)) {
+					List<FileVO> result = fileUtil.parseFileInf(files, "BBS_", 0, atchFileId, "");
+					atchFileId = fileMngService.insertFileInfs(result);
+					sampleBbs.setAtchFileId(atchFileId);
+					
+				} else {
+					FileVO fvo = new FileVO();
+					fvo.setAtchFileId(atchFileId);
+					int cnt = fileMngService.getMaxFileSN(fvo);
+					List<FileVO> result = fileUtil.parseFileInf(files, "BBS_", cnt, atchFileId, "");
+					fileMngService.updateFileInfs(result);
+				}
+			}
+		
+				sampleBbs.setNttCn(SampleStringUtil.unscript(sampleBbs.getNttCn())); // XSS 방지
+			
+				sampleBbs.setFrstRegisterId(user.getUniqId());
 				sampleBbsService.insertSampleBbs(sampleBbs);
 //			}
 		}
@@ -185,7 +217,8 @@ public class SampleBbsController {
 	 */
     @RequestMapping(value="/bbs/SampleBbsModify.do")
 	public String updateSampleBbs (
-			@ModelAttribute("sampleBbs") SampleBbs sampleBbs
+			final MultipartHttpServletRequest multiRequest
+			, @ModelAttribute("sampleBbs") SampleBbs sampleBbs
 			, @ModelAttribute("searchVO") SampleBbsVO searchVO // 검색조건
 			, BindingResult bindingResult
 			, @RequestParam Map<String, Object> commandMap
@@ -225,8 +258,27 @@ public class SampleBbsController {
 
 			// update 전 권한 체크
 			if (isAuthenticated) {
+				
+				final Map<String, MultipartFile> files = multiRequest.getFileMap();
+				if (!files.isEmpty()) {
+					String atchFileId = sampleBbs.getAtchFileId();
+					if (SampleStringUtil.isEmpty(atchFileId)) {
+						List<FileVO> result = fileUtil.parseFileInf(files, "BBS_", 0, atchFileId, "");
+						atchFileId = fileMngService.insertFileInfs(result);
+						sampleBbs.setAtchFileId(atchFileId);
+						
+					} else {
+						FileVO fvo = new FileVO();
+						fvo.setAtchFileId(atchFileId);
+						int cnt = fileMngService.getMaxFileSN(fvo);
+						List<FileVO> result = fileUtil.parseFileInf(files, "BBS_", cnt, atchFileId, "");
+						fileMngService.updateFileInfs(result);
+					}
+				}
     		
-//	    		sampleBbs.setLastUpdusrId(user.getUniqId()); // TODO: 수정자ID 필드 세팅하기
+				sampleBbs.setNttCn(SampleStringUtil.unscript(sampleBbs.getNttCn())); // XSS 방지
+	    		sampleBbs.setLastUpdusrId(user.getUniqId());
+	    		
 		    	sampleBbsService.updateSampleBbs(sampleBbs);
 		    }
 	    	
@@ -290,6 +342,9 @@ public class SampleBbsController {
     	// 사이트정보 유지
     	SiteVO siteVO = new SiteVO(commandMap);
     	model.put("siteVO", siteVO);
+    	
+    	// TODO: 조회수 증가
+    	
  			
 		SampleBbs vo = sampleBbsService.selectSampleBbsDetail(sampleBbs);
 		model.addAttribute("result", vo);

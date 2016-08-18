@@ -18,6 +18,7 @@
 <%--
 <title>게시판 수정</title>
 --%>
+<script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/fms/EgovMultiFile.js'/>" ></script>
 <script type="text/javaScript" language="javascript">
 <!--
 
@@ -137,22 +138,69 @@ function fnModify(form){
 	$(form).submit();
 }
 
+function fn_egov_check_file(flag) {
+	if (flag=="Y") {
+		document.getElementById('file_upload_posbl').style.display = "block";
+		document.getElementById('file_upload_imposbl').style.display = "none";
+	} else {
+		document.getElementById('file_upload_posbl').style.display = "none";
+		document.getElementById('file_upload_imposbl').style.display = "block";
+	}
+}
+function makeFileAttachment(){
+	var form = document.forms["sampleBbs"];
+	
+	var existFileNum = form.fileListCnt.value;
+	var maxFileNum = form.posblAtchFileNumber.value;
+
+	if (existFileNum=="undefined" || existFileNum ==null) {
+		existFileNum = 0;
+	}
+	if (maxFileNum=="undefined" || maxFileNum ==null) {
+		maxFileNum = 0;
+	}
+	var uploadableFileNum = maxFileNum - existFileNum;
+	if (uploadableFileNum<0) {
+		uploadableFileNum = 0;
+	}
+	if (uploadableFileNum != 0) {
+		fn_egov_check_file('Y');
+		var multi_selector = new MultiSelector( document.getElementById( 'egovComFileList' ), uploadableFileNum );
+		multi_selector.addElement( document.getElementById( 'egovComFileUploader' ) );
+	} else {
+		fn_egov_check_file('N');
+	}
+}
+
 /* ********************************************************
  * 초기화 작업
  ******************************************************** */
 $(document).ready(function(){
+	/*
 	// calendar
 	initCal({id:"frstRegistPnttm_img",type:"day",today:"y",icon:"n"});
 	initCal({id:"lastUpdtPnttm_img",type:"day",today:"y",icon:"n"});
+	*/
+	
+	// 첨부파일
+	makeFileAttachment();
 });	
 -->
 </script>
 
 <h3 class="title">게시판 수정</h3>
 
-<form:form commandName="sampleBbs" name="sampleBbs" method="post" action="">
+<form:form commandName="sampleBbs" name="sampleBbs" method="post" action="" enctype="multipart/form-data" >
 <input name="cmd" type="hidden" value="Modify"/>
 <form:hidden path="nttId"/>
+<input type="hidden" name="fileListCnt" value="0" />
+<%--
+<input type="hidden" name="posblAtchFileNumber" value="<c:out value='${bdMstr.posblAtchFileNumber}'/>" />
+<input type="hidden" name="posblAtchFileSize" value="<c:out value='${bdMstr.posblAtchFileSize}'/>" />
+--%>
+<input type="hidden" name="posblAtchFileNumber" value="3" />
+<input type="hidden" name="posblAtchFileSize" value="" />
+<input type="hidden" name="returnUrl" value="<c:url value='/bbs/SampleBbsEdit.do'/>"/>
 
 <!-- 검색조건 유지 start -->
 <%//@ include file="/WEB-INF/jsp/gep/cmm/include/search_condition.jsp" %>
@@ -286,7 +334,10 @@ $(document).ready(function(){
 	<tr>
 		<th scope="row"><label for="atchFileId">ATCH_FILE_ID</label></th>
 		<td>
+			<%-- [/cmm/fms/selectFileInfsForUpdate.do] 결과 atchFileId hidden element 자동 추가됨
 			<form:input  path="atchFileId" size="20" maxlength="20" id="atchFileId" />
+			--%>
+			${sampleBbs.atchFileId}
 			<form:errors path="atchFileId" cssClass="error"/>
 		</td>
 		<th scope="row"><label for="frstRegistPnttm">FRST_REGIST_PNTTM</label></th>
@@ -313,14 +364,43 @@ $(document).ready(function(){
 	</tr>
 	<tr>
 		<th scope="row"><label for="lastUpdusrId">LAST_UPDUSR_ID</label></th>
-		<td>
+		<td colspan="3">
 			<form:input  path="lastUpdusrId" size="20" maxlength="20" id="lastUpdusrId" />
 			<form:errors path="lastUpdusrId" cssClass="error"/>
 		</td>
-		<th scope="row"><label for=""></label></th>
-		<td>
-			<form:input  path="" size="" maxlength="" id="" />
-			<form:errors path="" cssClass="error"/>
+	</tr>
+	<c:if test="${not empty sampleBbs.atchFileId}">
+	<tr>
+		<th height="23">파일</th>
+		<td colspan="6">
+		<c:import url="/cmm/fms/selectFileInfsForUpdate.do" charEncoding="utf-8">
+			<c:param name="param_atchFileId" value="${sampleBbs.atchFileId}" />
+		</c:import>
+		</td>
+	</tr>
+	</c:if>
+	<tr>
+		<th scope="row"><label>파일첨부</label></th>
+		<td colspan="3">
+		    <div id="file_upload_posbl"  style="display:none;" >
+	            <table width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
+				    <tr>
+				        <td><input name="file_1" id="egovComFileUploader" type="file" title="첨부파일명 입력"/></td>
+				    </tr>
+				    <tr>
+				        <td>
+				        	<div id="egovComFileList"></div>
+				        </td>
+				    </tr>
+	   	        </table>
+			</div>
+			<div id="file_upload_imposbl"  style="display:none;" >
+	            <table width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
+				    <tr>
+				        <td><spring:message code="common.imposbl.fileupload" /></td>
+				    </tr>
+	   	        </table>
+			</div>
 		</td>
 	</tr>
 

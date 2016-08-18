@@ -140,6 +140,14 @@ function fnDelete(){
 		<th scope="row"></th>
 		<td> </td>
 	</tr>
+	<tr>
+		<th height="23">첨부파일 목록</th>
+		<td colspan="5">
+		<c:import url="/cmm/fms/selectFileInfs.do" charEncoding="utf-8">
+			<c:param name="param_atchFileId" value="${result.atchFileId}" />
+		</c:import>
+		</td>
+	</tr>
 
 </tbody>
 </table>

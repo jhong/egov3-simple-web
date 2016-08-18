@@ -19,6 +19,7 @@
 <%--
 <title>게시판 등록</title>
 --%>
+<script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/fms/EgovMultiFile.js'/>" ></script>
 <script type="text/javaScript" language="javascript">
 
 /* ********************************************************
@@ -149,6 +150,17 @@ function fncShowMessg(){
     }
 }
 
+function makeFileAttachment(){
+	var form = document.forms["sampleBbs"];
+	
+	var maxFileNum = dform.posblAtchFileNumber.value;
+	if(maxFileNum==null || maxFileNum==""){
+		maxFileNum = 3;
+	}
+	var multi_selector = new MultiSelector( document.getElementById( 'egovComFileList' ), maxFileNum );
+	multi_selector.addElement( document.getElementById( 'egovComFileUploader' ) );
+}
+
 /* ********************************************************
  * 초기화 작업
  ******************************************************** */
@@ -165,9 +177,15 @@ $(document).ready(function(){
 
 <h3 class="title">게시판 등록</h3>
 
-<form:form commandName="sampleBbs" name="sampleBbs" method="post" action="">
+<form:form commandName="sampleBbs" name="sampleBbs" method="post" action="" enctype="multipart/form-data" >
 <%--<double-submit:preventer/> 이중등록(Double Submit) 방지 --%>
 <input name="cmd" type="hidden" value="<c:out value='save'/>"/>
+<%--
+<input type="hidden" name="posblAtchFileNumber" value="<c:out value='${bdMstr.posblAtchFileNumber}'/>" />
+<input type="hidden" name="posblAtchFileSize" value="<c:out value='${bdMstr.posblAtchFileSize}'/>" />
+--%>
+<input type="hidden" name="posblAtchFileNumber" value="3" />
+<input type="hidden" name="posblAtchFileSize" value="" />
 
 <!-- 검색조건 유지 start -->
 <%//@ include file="/WEB-INF/jsp/gep/cmm/include/search_condition.jsp" %>
@@ -322,14 +340,24 @@ $(document).ready(function(){
 	</tr>
 	<tr>
 		<th scope="row"><label for="lastUpdusrId">LAST_UPDUSR_ID</label></th>
-		<td>
+		<td colspan="3">
 			<form:input  path="lastUpdusrId" size="20" maxlength="20" id="lastUpdusrId" />
 			<form:errors path="lastUpdusrId" cssClass="error"/>
 		</td>
-		<th scope="row"><label for=""></label></th>
-		<td>
-			<form:input  path="" size="" maxlength="" id="" />
-			<form:errors path="" cssClass="error"/>
+	</tr>
+	<tr>
+		<th height="23">첨부 파일</th>
+		<td colspan="3">
+			<table width="100%" cellspacing="0" cellpadding="0" border="0" align="center">
+			<tr>
+				<td><input name="file_1" id="egovComFileUploader" type="file" title="첨부파일입력"/></td>
+			</tr>
+			<tr>
+				<td>
+					<div id="egovComFileList"></div>
+				</td>
+			</tr>
+			</table>
 		</td>
 	</tr>
 
