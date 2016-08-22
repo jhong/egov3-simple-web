@@ -176,6 +176,7 @@
 				, LAST_UPDUSR_ID
 			FROM COMTNBBS
 		   WHERE 1=1
+		     AND BBS_ID = #{bbsId}
 		]]>
 
 		<if test='searchCondition == "nttSj"'>
@@ -216,6 +217,7 @@
 			SELECT COUNT(*) totcnt
 			FROM COMTNBBS
 		   WHERE 1=1
+		     AND BBS_ID = #{bbsId}
 		]]>
 
 		<if test='searchCondition == "nttSj"'>

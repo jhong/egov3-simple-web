@@ -39,8 +39,6 @@ function fnList(){
 function fnModify(){
 	var varForm = document.forms["detailForm"];
 	varForm.action = "<c:url value='/bbs/SampleBbsEdit.do'/>";
-	varForm.nttId.value = "${result.nttId}";
-	varForm.bbsId.value = "${result.bbsId}";
 	varForm.submit();
 }
 /* ********************************************************
@@ -50,7 +48,6 @@ function fnDelete(){
 	if (confirm("<spring:message code="common.delete.msg" />")) {
 		var varForm = document.forms["detailForm"];
 		varForm.action = "<c:url value='/bbs/SampleBbsRemove.do'/>";
-		varForm.nttId.value = "${result.nttId}";
 		varForm.submit();
 	}
 }
@@ -161,11 +158,9 @@ function fnDelete(){
 </div>
 
 <form name="detailForm" id="detailForm" method="post" action="">
-	<input type="hidden" name="nttId"/>
-	<input type="hidden" name="bbsId"/>
-	<%--
-	<input type="submit" id="invisible" class="invisible"/>
-	--%>
+	<input type="hidden" name="nttId" value="${result.nttId}"/>
+	<input type="hidden" name="bbsId" value="${result.bbsId}"/>
+
     <!-- 검색조건 유지 start -->
     <%//@ include file="/WEB-INF/jsp/gep/cmm/include/search_condition.jsp" %>
     <!-- 검색조건 유지 end -->
