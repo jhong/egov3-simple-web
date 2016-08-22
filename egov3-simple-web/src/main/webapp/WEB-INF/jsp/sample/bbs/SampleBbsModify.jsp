@@ -38,9 +38,9 @@ $(function(){
             }
         },
 		rules: {
-			nttId: { required:true, maxbyte:25, number:true },
+			nttId: { required:false, maxbyte:25, number:true },
 			bbsId: { required:true, maxbyte:20 },
-			nttNo: { required:true, maxbyte:25, number:true },
+			nttNo: { required:false, maxbyte:25, number:true },
 			nttSj: { required:true, maxbyte:2000 },
 			nttCn: { required:true },
 			answerAt: { required:true, maxbyte:1 },
@@ -57,8 +57,8 @@ $(function(){
 			ntcrNm: { required:false, maxbyte:20 },
 			password: { required:false, maxbyte:200 },
 			atchFileId: { required:false, maxbyte:20 },
-			frstRegistPnttm: { required:true, maxbyte:10 },
-			frstRegisterId: { required:true, maxbyte:20 },
+			frstRegistPnttm: { required:false, maxbyte:10 },
+			frstRegisterId: { required:false, maxbyte:20 },
 			lastUpdtPnttm: { required:false, maxbyte:10 },
 			lastUpdusrId: { required:false, maxbyte:20 }
 		},

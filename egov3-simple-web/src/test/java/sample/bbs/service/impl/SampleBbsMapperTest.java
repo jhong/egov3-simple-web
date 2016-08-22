@@ -55,7 +55,7 @@ public class SampleBbsMapperTest {
 		vo.setAnswerAt("A");
 		vo.setParntscttNo(new BigDecimal(0));
 		vo.setAnswerLc(new BigDecimal(0));
-		vo.setSortOrdr(new BigDecimal(0));
+//		vo.setSortOrdr(new BigDecimal(0));
 		vo.setRdcnt(new BigDecimal(0));
 		vo.setUseAt("U");
 		vo.setNtceBgnde("NTCE_BGNDE");
@@ -63,7 +63,7 @@ public class SampleBbsMapperTest {
 		vo.setNtcrId("NTCR_ID");
 		vo.setNtcrNm("NTCR_NM");
 		vo.setPassword("PASSWORD");
-		vo.setAtchFileId("ATCH_FILE_ID");
+		vo.setAtchFileId(null);
 		vo.setFrstRegistPnttm(null);
 		vo.setFrstRegisterId("FRST_REGISTER_ID");
 		vo.setLastUpdtPnttm(null);
@@ -148,7 +148,7 @@ public class SampleBbsMapperTest {
 		// parameters
 		SampleBbsVO searchVO = new SampleBbsVO();
 		searchVO.setSearchCondition("nttSj");
-		searchVO.setSearchKeyword("NTT_SJ");
+		searchVO.setSearchKeyword("test");
 		
 		List result = mapper.selectSampleBbsList(searchVO);
 		assertNotNull(result); // smoke test

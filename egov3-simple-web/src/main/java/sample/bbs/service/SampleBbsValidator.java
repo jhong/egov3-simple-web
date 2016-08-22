@@ -28,7 +28,7 @@ public class SampleBbsValidator implements Validator {
 	public void validate(Object obj, Errors errors) {
 		SampleBbs vo = (SampleBbs) obj;
 
-		ValidationUtils.rejectIfEmpty(errors, "nttId", "errors.required", "nttId is required."); // NTT_ID
+//		ValidationUtils.rejectIfEmpty(errors, "nttId", "errors.required", "nttId is required."); // NTT_ID
 		ValidationUtils.rejectIfEmpty(errors, "bbsId", "errors.required", "bbsId is required."); // BBS_ID
 		ValidationUtils.rejectIfEmpty(errors, "nttNo", "errors.required", "nttNo is required."); // NTT_NO
 		ValidationUtils.rejectIfEmpty(errors, "nttSj", "errors.required", "nttSj is required."); // NTT_SJ
@@ -36,7 +36,7 @@ public class SampleBbsValidator implements Validator {
 		ValidationUtils.rejectIfEmpty(errors, "answerAt", "errors.required", "answerAt is required."); // ANSWER_AT
 		ValidationUtils.rejectIfEmpty(errors, "parntscttNo", "errors.required", "parntscttNo is required."); // PARNTSCTT_NO
 		ValidationUtils.rejectIfEmpty(errors, "answerLc", "errors.required", "answerLc is required."); // ANSWER_LC
-		ValidationUtils.rejectIfEmpty(errors, "sortOrdr", "errors.required", "sortOrdr is required."); // SORT_ORDR
+//		ValidationUtils.rejectIfEmpty(errors, "sortOrdr", "errors.required", "sortOrdr is required."); // SORT_ORDR
 		ValidationUtils.rejectIfEmpty(errors, "rdcnt", "errors.required", "rdcnt is required."); // RDCNT
 		ValidationUtils.rejectIfEmpty(errors, "useAt", "errors.required", "useAt is required."); // USE_AT
 		ValidationUtils.rejectIfEmpty(errors, "ntceBgnde", "errors.required", "ntceBgnde is required."); // NTCE_BGNDE

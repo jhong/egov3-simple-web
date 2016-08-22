@@ -119,12 +119,12 @@ public class SampleBbsController {
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	
     	SampleBbs sampleBbs = new SampleBbs();
-    	sampleBbs.setBbsId("BBSMSTR_000000000001"); // TODO: 화면에서 넘어오는 값 세팅하기
+    	sampleBbs.setBbsId(sampleBbsVO.getBbsId()); // 화면에서 넘어오는 값 세팅
     	sampleBbs.setNttNo(new BigDecimal(1));
     	sampleBbs.setAnswerAt("N");
     	sampleBbs.setParntscttNo(new BigDecimal(0));
     	sampleBbs.setAnswerLc(new BigDecimal(0));
-    	sampleBbs.setSortOrdr(new BigDecimal(0));
+//    	sampleBbs.setSortOrdr(new BigDecimal(0)); // insert query 에서 직접 생성함
     	sampleBbs.setRdcnt(new BigDecimal(0));
     	sampleBbs.setUseAt("Y");
     	sampleBbs.setNtceBgnde("10000101            ");
@@ -199,6 +199,7 @@ public class SampleBbsController {
 			
 				sampleBbs.setFrstRegisterId(user.getUniqId());
 				sampleBbsService.insertSampleBbs(sampleBbs);
+				LOGGER.debug("insertSampleBbs() end... sampleBbs={}", sampleBbs);
 //			}
 		}
 		

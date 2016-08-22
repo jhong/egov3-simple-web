@@ -33,6 +33,10 @@
 	</resultMap>
 
 	<insert id="insertSampleBbs" parameterType="SampleBbs">
+		<selectKey resultType="java.math.BigDecimal" keyProperty="sortOrdr" order="BEFORE">
+			SELECT NVL(MAX(SORT_ORDR),0)+1 AS NTT_NO  FROM COMTNBBS
+			WHERE BBS_ID = #{bbsId}
+		</selectKey>
 		<![CDATA[
 			INSERT INTO COMTNBBS (
 				NTT_ID
@@ -71,7 +75,7 @@
 				, #{ntcrId}
 				, #{ntcrNm}
 				, #{password}
-				, #{atchFileId}
+				, #{atchFileId, jdbcType=CHAR}
 				, SYSDATE
 				, #{frstRegisterId}
 			)
@@ -97,7 +101,7 @@
 				, NTCR_ID = #{ntcrId}
 				, NTCR_NM = #{ntcrNm}
 				, PASSWORD = #{password}
-				, ATCH_FILE_ID = #{atchFileId}
+				, ATCH_FILE_ID = #{atchFileId, jdbcType=CHAR}
 				, FRST_REGIST_PNTTM = #{frstRegistPnttm, jdbcType=DATE}
 				, FRST_REGISTER_ID = #{frstRegisterId}
 				, LAST_UPDT_PNTTM = #{lastUpdtPnttm, jdbcType=DATE}
@@ -196,11 +200,11 @@
 		</if>
 
 		<trim prefix="ORDER BY ">
-			<if test="orderCondition == null or orderCondition == ''"> FRST_REGIST_PNTTM </if>
+			<if test="orderCondition == null or orderCondition == ''"> SORT_ORDR DESC, NTT_NO </if>
 			<if test="orderCondition == 'frstRegistPnttm'"> FRST_REGIST_PNTTM </if>
 			<if test="orderCondition == 'lastUpdtPnttm'"> LAST_UPDT_PNTTM </if>
 
-			<if test="orderType == null or orderType == ''"> DESC </if>
+			<if test="orderType == null or orderType == ''"> ASC </if>
 			<if test="orderType == 'ASC'">  ASC </if>
 			<if test="orderType == 'DESC'"> DESC </if>
 		</trim>

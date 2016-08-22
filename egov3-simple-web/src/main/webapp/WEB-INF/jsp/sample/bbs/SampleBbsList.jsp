@@ -83,7 +83,8 @@ $(document).ready(function(){
 <h3 class="title">게시판</h3>   
 
 <form name="listForm" action="<c:url value='/bbs/SampleBbsList.do'/>" method="post">
-<input name="pageIndex" type="hidden" value="<c:out value='${searchVO.pageIndex}'/>"/>
+<input type="hidden" name="pageIndex" value="<c:out value='${searchVO.pageIndex}'/>"/>
+<input type="hidden" name="bbsId" value="<c:out value='${searchVO.bbsId}'/>"/>
 
 <!-- 사이트정보 유지 start -->
 <%//@ include file="/WEB-INF/jsp/gep/cmm/include/site_condition.jsp" %>
@@ -262,10 +263,8 @@ $(document).ready(function(){
 <form name="detailForm" id="detailForm" method="post" action="">
 	<input type="hidden" name="nttId"/>
 	<input type="hidden" name="bbsId"/>
-    <%--
-    <input type="submit" id="invisible" class="invisible"/>
-    --%>
-   <!-- 검색조건 유지 start -->
+
+	<!-- 검색조건 유지 start -->
     <%//@ include file="/WEB-INF/jsp/gep/cmm/include/search_condition.jsp" %>
     <!-- 검색조건 유지 end -->
 </form>

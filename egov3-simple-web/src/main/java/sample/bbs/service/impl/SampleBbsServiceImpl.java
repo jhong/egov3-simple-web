@@ -1,5 +1,6 @@
 package sample.bbs.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -8,10 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import sample.bbs.service.SampleBbs;
 import sample.bbs.service.SampleBbsService;
 import sample.bbs.service.SampleBbsVO;
+import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 
 
 /**  
@@ -31,11 +33,20 @@ public class SampleBbsServiceImpl extends EgovAbstractServiceImpl implements Sam
     @Resource(name="SampleBbsMapper")
     private SampleBbsMapper sampleBbsMapper;
     
+    @Resource(name = "egovNttIdGnrService")
+    private EgovIdGnrService nttIdgenService;
+
 	/**
 	 * 게시판 을(를) 등록한다.
 	 */
 	public void insertSampleBbs(SampleBbs sampleBbs) throws Exception {
-    	sampleBbsMapper.insertSampleBbs(sampleBbs);    	
+		// NTT_ID세팅
+		int nttId = nttIdgenService.getNextIntegerId();
+		LOGGER.debug("insertSampleBbs() nttId={}", nttId);
+		sampleBbs.setNttId(new BigDecimal(nttId));
+		
+    	sampleBbsMapper.insertSampleBbs(sampleBbs);
+    	LOGGER.debug("insertSampleBbs() end... sampleBbs={}", sampleBbs);
 	}
 
 	/**

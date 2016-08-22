@@ -38,9 +38,9 @@ $(function(){
             }
         },
 		rules: {
-			nttId: { required:true, maxbyte:25, number:true },
+			nttId: { required:false, maxbyte:25, number:true },
 			bbsId: { required:true, maxbyte:20 },
-			nttNo: { required:true, maxbyte:25, number:true },
+			nttNo: { required:false, maxbyte:25, number:true },
 			nttSj: { required:true, maxbyte:2000 },
 			nttCn: { required:true },
 			answerAt: { required:true, maxbyte:1 },
@@ -57,8 +57,8 @@ $(function(){
 			ntcrNm: { required:false, maxbyte:20 },
 			password: { required:false, maxbyte:200 },
 			atchFileId: { required:false, maxbyte:20 },
-			frstRegistPnttm: { required:true, maxbyte:10 },
-			frstRegisterId: { required:true, maxbyte:20 },
+			frstRegistPnttm: { required:false, maxbyte:10 },
+			frstRegisterId: { required:false, maxbyte:20 },
 			lastUpdtPnttm: { required:false, maxbyte:10 },
 			lastUpdusrId: { required:false, maxbyte:20 }
 		},
@@ -180,6 +180,16 @@ $(document).ready(function(){
 <form:form commandName="sampleBbs" name="sampleBbs" method="post" action="" enctype="multipart/form-data" >
 <%--<double-submit:preventer/> 이중등록(Double Submit) 방지 --%>
 <input name="cmd" type="hidden" value="<c:out value='save'/>"/>
+<form:hidden path="nttId" />
+<form:hidden path="bbsId" />
+<form:hidden path="nttNo" />
+<form:hidden path="sortOrdr" />
+<form:hidden path="rdcnt" />
+<form:hidden path="frstRegistPnttm" />
+<form:hidden path="frstRegisterId" />
+<form:hidden path="lastUpdtPnttm" />
+<form:hidden path="lastUpdusrId" />
+
 <%--
 <input type="hidden" name="posblAtchFileNumber" value="<c:out value='${bdMstr.posblAtchFileNumber}'/>" />
 <input type="hidden" name="posblAtchFileSize" value="<c:out value='${bdMstr.posblAtchFileSize}'/>" />
@@ -215,25 +225,8 @@ $(document).ready(function(){
 	</colgroup>
 	<tbody>
 	<tr>
-		<th scope="row"><label for="nttId">NTT_ID</label></th>
-		<td>
-			<form:input  path="nttId" size="10" maxlength="25" id="nttId" />
-			<form:errors path="nttId" cssClass="error"/>
-		</td>
-		<th scope="row"><label for="bbsId">BBS_ID</label></th>
-		<td>
-			<form:input  path="bbsId" size="20" maxlength="20" id="bbsId" />
-			<form:errors path="bbsId" cssClass="error"/>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row"><label for="nttNo">NTT_NO</label></th>
-		<td>
-			<form:input  path="nttNo" size="10" maxlength="25" id="nttNo" />
-			<form:errors path="nttNo" cssClass="error"/>
-		</td>
 		<th scope="row"><label for="nttSj">NTT_SJ</label></th>
-		<td>
+		<td colspan="3">
 			<form:input  path="nttSj" size="20" maxlength="2000" id="nttSj" />
 			<form:errors path="nttSj" cssClass="error"/>
 		</td>
@@ -260,18 +253,6 @@ $(document).ready(function(){
 		<td>
 			<form:input  path="answerLc" size="10" maxlength="13" id="answerLc" />
 			<form:errors path="answerLc" cssClass="error"/>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row"><label for="sortOrdr">SORT_ORDR</label></th>
-		<td>
-			<form:input  path="sortOrdr" size="10" maxlength="13" id="sortOrdr" />
-			<form:errors path="sortOrdr" cssClass="error"/>
-		</td>
-		<th scope="row"><label for="rdcnt">RDCNT</label></th>
-		<td>
-			<form:input  path="rdcnt" size="10" maxlength="15" id="rdcnt" />
-			<form:errors path="rdcnt" cssClass="error"/>
 		</td>
 	</tr>
 	<tr>
@@ -312,37 +293,9 @@ $(document).ready(function(){
 	</tr>
 	<tr>
 		<th scope="row"><label for="atchFileId">ATCH_FILE_ID</label></th>
-		<td>
+		<td colspan="3">
 			<form:input  path="atchFileId" size="20" maxlength="20" id="atchFileId" />
 			<form:errors path="atchFileId" cssClass="error"/>
-		</td>
-		<th scope="row"><label for="frstRegistPnttm">FRST_REGIST_PNTTM</label></th>
-		<td>
-			<fmt:formatDate value="${sampleBbs.frstRegistPnttm}" type="date" pattern="yyyy-MM-dd" var="frstRegistPnttmFormat" />
-			<form:input  path="frstRegistPnttm" size="0" maxlength="10" id="frstRegistPnttm" value="${frstRegistPnttmFormat}" onkeydown="allowNumberOnly(event);" onkeyup="convertDateKeyUp(this);" onfocus="convertDateFocus(this);" onblur="convertDateBlur(this);"/>
-			<a href="here" onclick="fn_jq_calendar('frstRegistPnttm'); return false;" id="frstRegistPnttm_img" title="FRST_REGIST_PNTTM 달력창 열림" ><img src="${pageContext.request.contextPath}/images/gep/front/ovs/btn_scal.gif" name="frstRegistPnttm_img" class="" alt="FRST_REGIST_PNTTM 달력창 열림" /></a>
-			<form:errors path="frstRegistPnttm" cssClass="error"/>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row"><label for="frstRegisterId">FRST_REGISTER_ID</label></th>
-		<td>
-			<form:input  path="frstRegisterId" size="20" maxlength="20" id="frstRegisterId" />
-			<form:errors path="frstRegisterId" cssClass="error"/>
-		</td>
-		<th scope="row"><label for="lastUpdtPnttm">LAST_UPDT_PNTTM</label></th>
-		<td>
-			<fmt:formatDate value="${sampleBbs.lastUpdtPnttm}" type="date" pattern="yyyy-MM-dd" var="lastUpdtPnttmFormat" />
-			<form:input  path="lastUpdtPnttm" size="0" maxlength="10" id="lastUpdtPnttm" value="${lastUpdtPnttmFormat}" onkeydown="allowNumberOnly(event);" onkeyup="convertDateKeyUp(this);" onfocus="convertDateFocus(this);" onblur="convertDateBlur(this);"/>
-			<a href="here" onclick="fn_jq_calendar('lastUpdtPnttm'); return false;" id="lastUpdtPnttm_img" title="LAST_UPDT_PNTTM 달력창 열림" ><img src="${pageContext.request.contextPath}/images/gep/front/ovs/btn_scal.gif" name="lastUpdtPnttm_img" class="" alt="LAST_UPDT_PNTTM 달력창 열림" /></a>
-			<form:errors path="lastUpdtPnttm" cssClass="error"/>
-		</td>
-	</tr>
-	<tr>
-		<th scope="row"><label for="lastUpdusrId">LAST_UPDUSR_ID</label></th>
-		<td colspan="3">
-			<form:input  path="lastUpdusrId" size="20" maxlength="20" id="lastUpdusrId" />
-			<form:errors path="lastUpdusrId" cssClass="error"/>
 		</td>
 	</tr>
 	<tr>

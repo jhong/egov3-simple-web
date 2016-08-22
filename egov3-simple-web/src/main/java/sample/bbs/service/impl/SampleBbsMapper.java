@@ -29,7 +29,9 @@ public class SampleBbsMapper extends SampleAbstractMapper {
 	 * @throws Exception
 	 */
 	public void insertSampleBbs(SampleBbs sampleBbs) throws Exception {
-        insert("insertSampleBbs", sampleBbs);
+		LOGGER.debug("insertSampleBbs() start... sampleBbs={}", sampleBbs);
+        insert("insertSampleBbs", sampleBbs); // 등록 쿼리 실행 시 sortOrdr 구하여 세팅함
+        LOGGER.debug("insertSampleBbs() end... sampleBbs={}", sampleBbs);
 	}
 
 	/**
