@@ -26,6 +26,12 @@
 	    <Logger name="org.springframework" level="DEBUG" additivity="false">
 	        <AppenderRef ref="console" />
 	    </Logger>
+		<Logger name="com.ibatis" level="DEBUG" additivity="false">
+			<AppenderRef ref="console" />	
+		</Logger>
+	    <Logger name="org.mybatis" level="TRACE" additivity="false">
+	        <AppenderRef ref="console" />
+	    </Logger>
 	    <Logger name="sample" level="DEBUG" additivity="false">
 	        <AppenderRef ref="console" />
 	        <AppenderRef ref="logFile" />
