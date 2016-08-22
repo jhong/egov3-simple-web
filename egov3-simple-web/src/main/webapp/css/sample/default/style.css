@@ -1,0 +1,36 @@
+@CHARSET "UTF-8";
+
+/*************************************************************/
+/* Layout                                                    */
+/*************************************************************/
+body{width:100%; }
+
+#PgWrap{ width:100%;}
+/* #PgWidth{ width:1000px;}*/
+#PgWidth{ width:100%; min-width:1200px; width:expression(document.body.clientWidth < 1000?"1000px": "auto" );}
+
+#LeftArea{ width:192px; padding-left:20px; float:left;}
+#RightArea{ width:76%; min-width:778px;  padding-left:10px; float:left; width:expression(document.body.clientWidth < 1000?"778px": "76%" ); }
+
+
+#Footer{ text-align:center; padding:20px 20px 20px 20px; background-color:#fafcfb;}
+#Footer .foot_con{ width:1000px; margin:0 auto;}
+#Footer .logo{  margin-right:20px; }
+#Footer .copy{ display:inline-block;  font-size:11px; vertical-align:5px; color:#768383;}
+
+
+/*************************************************************/
+/* Top  / Left                                                     */
+/*************************************************************/
+#TopArea{ height:45px; background-color:#7eb944; repeat-x;}
+
+.t_menu{ padding-left:40px; margin-top:11px; margin-left:142px;  } 
+.t_menu li{ display:inline; text-indent:-10000px;  height:38px;}
+
+
+/*************************************************************/
+/* progress circle                                                   */
+/*************************************************************/
+.progressBack {position:absolute;left:0;top:0;width:100%;height:100%;z-index:190;background-color:white;filter:alpha(opacity=70);-moz-opacity:0.7;display:none;}
+.progressBar {position:absolute;left:0;top:0;width:100%;z-index:200;display:none;}
+

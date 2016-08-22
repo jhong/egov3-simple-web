@@ -10,8 +10,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
 <title>해외전시</title>
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/gep/front/ovs/import.css'/>" />
-<link rel="stylesheet" type="text/css" href="/js/calendar/calendar.css" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/sample/default/style.css'/>" />
 
 <script type="text/javascript" src="<c:url value='/js/jquery/jquery-1.12.0.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/gep/common.js'/>"></script>

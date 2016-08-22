@@ -12,10 +12,7 @@
 	 
 	<title>글로벌전시포탈 - 해외전시</title>
 	
-<%-- 
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/gep/front/style.css'/>" />
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/gep/front/default.css'/>" />
---%>
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/sample/default/style.css'/>" />
 	
 <script type="text/javascript" src="<c:url value='/js/jquery/jquery-1.12.0.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/sample/common.js'/>"></script>
@@ -89,7 +86,7 @@ $.validator.setDefaults({
 <!-- progress circle -->
 <div id="progressBack" class="progressBack"></div>
 <div id="progressBar" class="progressBar">
-	<center><img src="<c:url value='/images/gep/admin/cmm/progress_circle.gif'/>" alt="progress_circle"/></center>
+	<center><img src="<c:url value='/images/sample/default/progress_circle.gif'/>" alt="progress_circle"/></center>
 </div>
 
 <script type="text/javascript">

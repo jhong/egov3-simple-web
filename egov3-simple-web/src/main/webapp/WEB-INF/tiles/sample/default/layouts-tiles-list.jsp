@@ -19,11 +19,7 @@
   <tiles:putAttribute name="content" value="${content_include}" />
 </tiles:insertDefinition>
 
-<%--
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/gep/front/style.css'/>" />
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/gep/front/default.css'/>" />
---%>
-<link rel="stylesheet" type="text/css" href="<c:url value='/css/gep/front/ovs/import.css'/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value='/css/sample/default/style.css'/>" />
 
 <script type="text/javascript" src="<c:url value='/js/jquery/jquery-1.12.0.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/sample/common.js'/>"></script>
