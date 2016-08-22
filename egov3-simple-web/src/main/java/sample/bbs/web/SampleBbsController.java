@@ -26,6 +26,7 @@ import sample.bbs.service.SampleBbsValidator;
 import sample.cmm.service.SiteVO;
 import sample.cmm.util.SampleStringUtil;
 import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.annotation.IncludedInfo;
 import egovframework.com.cmm.service.EgovFileMngService;
 import egovframework.com.cmm.service.EgovFileMngUtil;
 import egovframework.com.cmm.service.FileVO;
@@ -65,6 +66,33 @@ public class SampleBbsController {
 
     @Resource(name = "EgovFileMngUtil")
     private EgovFileMngUtil fileUtil;
+
+	/**
+	 * 게시판  Master 목록 화면을 조회한다.
+	 * @param sampleBbsVO
+	 * @param bindingResult
+	 * @param model
+	 * @param commandMap
+	 * @return "//bbs/SampleBbsMasterList"
+	 * @throws Exception
+	 */
+    @IncludedInfo(name="게시판테스트",order = 179 ,gid = 40)
+    @RequestMapping(value="/bbs/")
+	public String selectSampleBbsMasterList (
+			@ModelAttribute("searchVO") SampleBbsVO sampleBbsVO
+			, BindingResult bindingResult
+			, ModelMap model
+			, @RequestParam Map<?, ?> commandMap
+			) throws Exception {
+
+    	// 사이트정보 유지
+    	SiteVO siteVO = new SiteVO(commandMap);
+    	model.put("siteVO", siteVO);
+    	
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	
+    	return "default_blank/sample/bbs/SampleBbsMasterList.tiles";
+    }
 
     
 	/**
