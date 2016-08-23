@@ -19,8 +19,6 @@
 	<script type="text/javascript" src="<c:url value='/js/jquery-validation-1.14.0/dist/additional-methods.js'/>"></script>
 	<script type="text/javascript" src="<c:url value='/js/jquery-validation-1.14.0/dist/localization/messages_ko.js'/>"></script>
 
-	<script type="text/javascript" src="<c:url value='/js/calendar/calendar_beans_v2.0.js'/>"></script>
-	<link rel="stylesheet" type="text/css" href="<c:url value='/js/calendar/calendar.css' />" />
 
 <script type="text/javascript">
 /* ********************************************************

@@ -22,11 +22,6 @@
 
 <script type="text/javascript" src="<c:url value='/js/jquery/jquery-1.12.0.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/sample/common.js'/>"></script>
-<%--
-<!-- calendar js/css 추가 -->
-<script type="text/javascript" src="/js/calendar/calendar.js"></script>
-<script type="text/javascript" src="/js/calendar/calendar_beans_v2.0.js"></script>
---%>
 
 
 	<tiles:insertAttribute name="header"/> <!-- header : head 종료 / body start 포함 -->

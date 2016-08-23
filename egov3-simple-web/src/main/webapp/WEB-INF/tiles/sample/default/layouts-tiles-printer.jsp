@@ -14,9 +14,6 @@
 
 <script type="text/javascript" src="<c:url value='/js/jquery/jquery-1.12.0.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/gep/common.js'/>"></script>
-<!-- calendar js/css 추가 -->
-<script type="text/javascript" src="/js/calendar/calendar.js"></script>
-<script type="text/javascript" src="/js/calendar/calendar_beans_v2.0.js"></script>
 
 <script type="text/javascript">
 

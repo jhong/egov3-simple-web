@@ -24,9 +24,6 @@
 <script type="text/javascript" src="<c:url value='/js/jquery/jquery-1.12.0.min.js'/>"></script>
 <script type="text/javascript" src="<c:url value='/js/sample/common.js'/>"></script>
 
-<script type="text/javascript" src="<c:url value='/js/calendar/calendar_beans_v2.0.js'/>"></script>
-<link rel="stylesheet" type="text/css" href="<c:url value='/js/calendar/calendar.css' />" />
-
 <%-- 
 <script type="text/javascript">
 // js error 처리

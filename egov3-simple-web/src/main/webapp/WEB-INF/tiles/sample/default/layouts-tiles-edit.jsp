@@ -23,11 +23,6 @@
 
 <script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/fms/EgovMultiFile.js'/>"></script>
 
-<%--
-<script type="text/javascript" src="<c:url value='/js/calendar/calendar_beans_v2.0.js'/>"></script>
-<link rel="stylesheet" type="text/css" href="<c:url value='/js/calendar/calendar.css' />" />
---%>
-
 <script type="text/javascript">
 /* ********************************************************
  * validation 기본 세팅
