@@ -15,9 +15,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="jwork" uri="http://www.egovframe.go.kr/tags/ext/jfile/jsp"%>
 <%--
 <title>게시판 수정</title>
 --%>
+
+<%@ include file="/WEB-INF/jsp/sample/cmm/include/jfile_include.jsp" %>
+
 <script type="text/javascript" src="<c:url value='/js/egovframework/com/cmm/fms/EgovMultiFile.js'/>" ></script>
 <script type="text/javaScript" language="javascript">
 <!--
@@ -30,7 +34,7 @@ $(function(){
         submitHandler: function() {
             var f = confirm("<spring:message code="common.update.msg" />'");
             if(f){
-            	document.sampleBbs.action = "<c:url value='/bbs/SampleBbsModify.do'/>";
+            	document.sampleBbs.action = "<c:url value='/bbs/SampleBbsJfileModify.do'/>";
             	showProgress(); // 중복실행 방지 위해 progress circle 보이기
                 return true;
             } else {
@@ -138,52 +142,12 @@ function fnModify(form){
 	$(form).submit();
 }
 
-function fn_egov_check_file(flag) {
-	if (flag=="Y") {
-		document.getElementById('file_upload_posbl').style.display = "block";
-		document.getElementById('file_upload_imposbl').style.display = "none";
-	} else {
-		document.getElementById('file_upload_posbl').style.display = "none";
-		document.getElementById('file_upload_imposbl').style.display = "block";
-	}
-}
-function makeFileAttachment(){
-	var form = document.forms["sampleBbs"];
-	
-	var existFileNum = form.fileListCnt.value;
-	var maxFileNum = form.posblAtchFileNumber.value;
-
-	if (existFileNum=="undefined" || existFileNum ==null) {
-		existFileNum = 0;
-	}
-	if (maxFileNum=="undefined" || maxFileNum ==null) {
-		maxFileNum = 0;
-	}
-	var uploadableFileNum = maxFileNum - existFileNum;
-	if (uploadableFileNum<0) {
-		uploadableFileNum = 0;
-	}
-	if (uploadableFileNum != 0) {
-		fn_egov_check_file('Y');
-		var multi_selector = new MultiSelector( document.getElementById( 'egovComFileList' ), uploadableFileNum );
-		multi_selector.addElement( document.getElementById( 'egovComFileUploader' ) );
-	} else {
-		fn_egov_check_file('N');
-	}
-}
 
 /* ********************************************************
  * 초기화 작업
  ******************************************************** */
 $(document).ready(function(){
-	/*
-	// calendar
-	initCal({id:"frstRegistPnttm_img",type:"day",today:"y",icon:"n"});
-	initCal({id:"lastUpdtPnttm_img",type:"day",today:"y",icon:"n"});
-	*/
-	
-	// 첨부파일
-	makeFileAttachment();
+
 });	
 -->
 </script>
@@ -401,6 +365,48 @@ $(document).ready(function(){
 				    </tr>
 	   	        </table>
 			</div>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="4">
+		   <div id="simple">
+			<fieldset> 
+			<legend><b>파일 업로드1</b></legend>
+				<jwork:fileuploader 
+				       objectId="fileUploadObj1"  
+				       uploadCompletedEvent="uploadCompleted1"
+				       fileType="all" 
+				       maxFileSize="10000" 
+				       maxFileCount="30" 
+				       usePreview="true"
+				       useSecurity="false"
+				       uploadMode="db"
+				       />
+				<input type="button" onclick="send1()" value="전송" style="width: 110px; height: 24px; font-size: 11px"/>		
+			</fieldset>
+			
+			<script type="text/javascript">	
+				function send1(){		
+					fileUploadObj1.startUpload();
+				}
+				function uploadCompleted1(){
+					fileUploadObj1.refresh();
+					alert(fileUploadObj1.fileId);
+					$("#atchFileId").val(fileUploadObj1.fileId);
+				}
+				function loadDownload() {
+					var fileId= $.trim("${sampleBbs.atchFileId}");
+					console.log("loadDownload() fileId="+fileId);
+					if (fileId === "") return;
+					
+					fileUploadObj1.setFileId(fileId);
+					fileUploadObj1.refresh();
+				}
+				$(window).load(function(){
+					loadDownload();
+				}); 
+			</script>
+
 		</td>
 	</tr>
 

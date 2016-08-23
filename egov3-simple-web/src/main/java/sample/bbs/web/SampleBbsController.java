@@ -96,7 +96,7 @@ public class SampleBbsController {
 
     
 	/**
-	 * 게시판  등록화면을 조회한다.
+	 * 게시판  등록화면을 조회한다. (egov 기본 파일 업로드 사용)
 	 * @param sampleBbsVO
 	 * @param bindingResult
 	 * @param model
@@ -116,30 +116,47 @@ public class SampleBbsController {
     	SiteVO siteVO = new SiteVO(commandMap);
     	model.put("siteVO", siteVO);
     	
-    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
-    	
     	SampleBbs sampleBbs = new SampleBbs();
     	sampleBbs.setBbsId(sampleBbsVO.getBbsId()); // 화면에서 넘어오는 값 세팅
-    	sampleBbs.setNttNo(new BigDecimal(1));
-    	sampleBbs.setAnswerAt("N");
-    	sampleBbs.setParntscttNo(new BigDecimal(0));
-    	sampleBbs.setAnswerLc(new BigDecimal(0));
-//    	sampleBbs.setSortOrdr(new BigDecimal(0)); // insert query 에서 직접 생성함
-    	sampleBbs.setRdcnt(new BigDecimal(0));
-    	sampleBbs.setUseAt("Y");
-    	sampleBbs.setNtceBgnde("10000101            ");
-    	sampleBbs.setNtceEndde("99991231            ");
-    	sampleBbs.setNtcrId(user.getId());
-    	sampleBbs.setNtcrNm(user.getName());
-    	sampleBbs.setFrstRegisterId(user.getUniqId());
-//    	sampleBbs.setFrstRegistPnttm();
+    	sampleBbs = sampleBbsService.initSampleBbs(sampleBbs); // 기본 데이터 세팅
     	
     	model.put("sampleBbs", sampleBbs);
     	
 //		return SampleBizUtil.getTilesView("/bbs/SampleBbsRegist", "edit", this.DESIGN_TYPE, siteVO);
     	return "default_edit/sample/bbs/SampleBbsRegist.tiles";
     }
-    
+
+	/**
+	 * 게시판  등록화면을 조회한다. (jfile 사용)
+	 * @param sampleBbsVO
+	 * @param bindingResult
+	 * @param model
+	 * @param commandMap
+	 * @return "//bbs/SampleBbsRegist"
+	 * @throws Exception
+	 */
+    @RequestMapping(value="/bbs/SampleBbsJfileEntry.do")
+	public String entrySampleBbsJfile (
+			@ModelAttribute("searchVO") SampleBbsVO sampleBbsVO
+			, BindingResult bindingResult
+			, ModelMap model
+			, @RequestParam Map<?, ?> commandMap
+			) throws Exception {
+
+    	// 사이트정보 유지
+    	SiteVO siteVO = new SiteVO(commandMap);
+    	model.put("siteVO", siteVO);
+    	
+    	
+    	SampleBbs sampleBbs = new SampleBbs();
+    	sampleBbs.setBbsId(sampleBbsVO.getBbsId()); // 화면에서 넘어오는 값 세팅
+    	sampleBbs = sampleBbsService.initSampleBbs(sampleBbs); // 기본 데이터 세팅
+    	
+    	model.put("sampleBbs", sampleBbs);
+    	
+    	return "default_edit/sample/bbs/SampleBbsJfileRegist.tiles";
+    }
+
 	/**
 	 * 게시판 을(를) 등록한다.
 	 * @param sampleBbs
@@ -207,6 +224,56 @@ public class SampleBbsController {
     }
 
 	/**
+	 * 게시판 을(를) 등록한다. (jfile 사용)
+	 * @param sampleBbs
+	 * @param bindingResult
+	 * @return "//bbs/SampleBbsRegist"
+	 * @throws Exception
+	 */
+    @RequestMapping(value="/bbs/SampleBbsJfileRegist.do")
+	public String insertSampleBbsJfile (
+			final MultipartHttpServletRequest multiRequest
+			, @ModelAttribute("sampleBbs") SampleBbs sampleBbs
+			, BindingResult bindingResult
+			, RedirectAttributes redirectAttributes
+			, @RequestParam Map<?, ?> commandMap
+			) throws Exception {
+
+    	// 사이트정보 유지
+    	SiteVO siteVO = new SiteVO(commandMap);
+    	redirectAttributes.addFlashAttribute("siteVO", siteVO);
+
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+    	LOGGER.debug("insertSampleBbsJfile() isAuthenticated={}", isAuthenticated+", user="+user);
+
+		// validation
+        this.sampleBbsValidator.validate(sampleBbs, bindingResult);
+//		SampleBizUtil.loggingValidationResult(bindingResult, LOGGER);
+		redirectAttributes.addFlashAttribute("errors", bindingResult); // redirect 후 validation 결과 보여주기 위해 추가
+
+		if (bindingResult.hasErrors()){
+//    		return SampleBizUtil.getTilesView("/bbs/SampleBbsRegist", "edit", this.DESIGN_TYPE, siteVO);
+			return "default_edit/sample/bbs/SampleBbsJfileRegist.tiles";
+		}
+
+		// insert 전 권한 체크
+		if (isAuthenticated) {
+			
+			// jfile 업로드로 화면에서 ajax 통해 진행된 후 atchFileId 세팅함
+			LOGGER.debug("insertSampleBbsJfile() atchFileId={}", sampleBbs.getAtchFileId());
+			
+			sampleBbs.setNttCn(SampleStringUtil.unscript(sampleBbs.getNttCn())); // XSS 방지
+		
+			sampleBbs.setFrstRegisterId(user.getUniqId());
+			sampleBbsService.insertSampleBbs(sampleBbs);
+			LOGGER.debug("insertSampleBbsJfile() end... sampleBbs={}", sampleBbs);
+		}
+		
+		return "redirect:/bbs/SampleBbsDetail.do?nttId="+sampleBbs.getNttId()+"&bbsId="+sampleBbs.getBbsId(); // 중복 등록 방지 위해 redirect 수행
+    }
+
+	/**
 	 * 게시판 수정화면을 호출한다.
 	 * @param sampleBbs
 	 * @param bindingResult
@@ -233,6 +300,34 @@ public class SampleBbsController {
 		
 //		return SampleBizUtil.getTilesView("/bbs/SampleBbsModify", "edit", this.DESIGN_TYPE, siteVO);
 		return "default_edit/sample/bbs/SampleBbsModify.tiles";
+    }
+
+	/**
+	 * 게시판 수정화면을 호출한다. (jfile 사용)
+	 * @param sampleBbs
+	 * @param bindingResult
+	 * @param commandMap
+	 * @param model
+	 * @return "//bbs/SampleBbsJfileModify"
+	 * @throws Exception
+	 */
+    @RequestMapping(value="/bbs/SampleBbsJfileEdit.do")
+	public String editSampleBbsJfile (
+			@ModelAttribute("sampleBbs") SampleBbs sampleBbs
+			, @ModelAttribute("searchVO") SampleBbsVO searchVO // 검색조건
+			, BindingResult bindingResult
+			, @RequestParam Map<String, Object> commandMap
+			, ModelMap model
+			) throws Exception {
+			
+    	// 사이트정보 유지
+    	SiteVO siteVO = new SiteVO(commandMap);
+    	model.put("siteVO", siteVO);
+    	
+		SampleBbs vo = sampleBbsService.selectSampleBbsDetail(sampleBbs);
+		model.addAttribute("sampleBbs", vo);
+		
+		return "default_edit/sample/bbs/SampleBbsJfileModify.tiles";
     }
 
 	/**
@@ -313,6 +408,72 @@ public class SampleBbsController {
 	    	
 			model.addAttribute("result", sampleBbs);
 //			return SampleBizUtil.getTilesView("/bbs/SampleBbsDetail", "view", this.DESIGN_TYPE, siteVO); // 상세 화면으로 이동
+			return "default_view/sample/bbs/SampleBbsDetail.tiles";
+	        
+    	} else {
+    		return "forward:/bbs/SampleBbsList.do"; // 목록으로 이동
+    	}
+    }
+
+	/**
+	 * 게시판 을(를) 수정한다. (jfile 사용)
+	 * @param sampleBbs
+	 * @param bindingResult
+	 * @param commandMap
+	 * @param model
+	 * @return "//bbs/SampleBbsJfileModify"
+	 * @throws Exception
+	 */
+    @RequestMapping(value="/bbs/SampleBbsJfileModify.do")
+	public String updateSampleBbsJfile (
+			final MultipartHttpServletRequest multiRequest
+			, @ModelAttribute("sampleBbs") SampleBbs sampleBbs
+			, @ModelAttribute("searchVO") SampleBbsVO searchVO // 검색조건
+			, BindingResult bindingResult
+			, @RequestParam Map<String, Object> commandMap
+			, ModelMap model
+			) throws Exception {
+			
+    	// 사이트정보 유지
+    	SiteVO siteVO = new SiteVO(commandMap);
+    	model.put("siteVO", siteVO);
+			
+    	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+    	Boolean isAuthenticated = EgovUserDetailsHelper.isAuthenticated();
+			
+		String sCmd = commandMap.get("cmd") == null ? "" : (String)commandMap.get("cmd");
+		
+    	if (sCmd.equals("")) {
+    		SampleBbs vo = sampleBbsService.selectSampleBbsDetail(sampleBbs);
+    		model.addAttribute("sampleBbs", vo);
+
+    		return "default_edit/sample/bbs/SampleBbsJfileModify.tiles";
+    		
+    	} else if (sCmd.equals("Modify")) {
+    	
+			// validation
+     		this.sampleBbsValidator.validate(sampleBbs, bindingResult);
+//    		SampleBizUtil.loggingValidationResult(bindingResult, LOGGER);
+    		model.addAttribute("errors", bindingResult);
+ 
+    		if (bindingResult.hasErrors()){
+
+    			return "default_edit/sample/bbs/SampleBbsJfileModify.tiles";
+    		}
+
+			// update 전 권한 체크
+			if (isAuthenticated) {
+				
+				// jfile 업로드로 화면에서 ajax 통해 진행된 후 atchFileId 세팅함
+				LOGGER.debug("updateSampleBbsJfile() atchFileId={}", sampleBbs.getAtchFileId());
+    		
+				sampleBbs.setNttCn(SampleStringUtil.unscript(sampleBbs.getNttCn())); // XSS 방지
+	    		sampleBbs.setLastUpdusrId(user.getUniqId());
+	    		
+		    	sampleBbsService.updateSampleBbs(sampleBbs);
+		    }
+	    	
+			model.addAttribute("result", sampleBbs);
 			return "default_view/sample/bbs/SampleBbsDetail.tiles";
 	        
     	} else {

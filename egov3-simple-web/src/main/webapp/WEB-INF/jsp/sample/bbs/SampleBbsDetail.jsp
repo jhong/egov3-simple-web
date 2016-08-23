@@ -14,16 +14,15 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="jwork" uri="http://www.egovframe.go.kr/tags/ext/jfile/jsp"%>
 <%--
 <title>게시판 상세조회</title>
 --%>
+
+<%@ include file="/WEB-INF/jsp/sample/cmm/include/jfile_include.jsp" %>
+
 <script type="text/javaScript" language="javascript">
 <!--
-/* ********************************************************
- * 초기화
- ******************************************************** */
-function fnInit(){
-}
 /* ********************************************************
  * 목록 으로 가기
  ******************************************************** */
@@ -42,6 +41,15 @@ function fnModify(){
 	varForm.submit();
 }
 /* ********************************************************
+ * 수정화면으로  바로가기 (jfile 사용)
+ ******************************************************** */
+function fnModifyJfile(){
+	var varForm = document.forms["detailForm"];
+	varForm.action = "<c:url value='/bbs/SampleBbsJfileEdit.do'/>";
+	varForm.submit();
+}
+
+/* ********************************************************
  * 삭제 처리 함수
  ******************************************************** */
 function fnDelete(){
@@ -51,7 +59,15 @@ function fnDelete(){
 		varForm.submit();
 	}
 }
--->
+
+/* ********************************************************
+ * 초기화 작업
+ ******************************************************** */
+$(document).ready(function(){
+	
+}); 
+
+//-->
 </script>
 
 <h3 class="title">게시판 상세조회</h3>
@@ -138,11 +154,41 @@ function fnDelete(){
 		<td> </td>
 	</tr>
 	<tr>
-		<th height="23">첨부파일 목록</th>
+		<th height="23">첨부파일 목록 (egov file upload)</th>
 		<td colspan="5">
 		<c:import url="/cmm/fms/selectFileInfs.do" charEncoding="utf-8">
 			<c:param name="param_atchFileId" value="${result.atchFileId}" />
 		</c:import>
+		</td>
+	</tr>
+	<tr>
+		<th>파일 다운로드 (jfile)</th>
+		<td colspan="3">
+			<div id="simple">
+				<fieldset>
+					<jwork:filedownloader				
+					       objectId="fileDownloadObj1"
+					       fileId="fileId"
+					       usePreview="true"
+					       useSecurity="false"
+					       uploadMode="db"
+					       />
+				</fieldset>
+			</div>
+			<script type="text/javascript">	
+			function loadDownload() {
+				var fileId= $.trim("${result.atchFileId}");
+				if (fileId === "") return;
+				
+				fileDownloadObj1.setFileId(fileId);
+				fileDownloadObj1.refresh();
+			}
+			
+			$(window).load(function(){
+				loadDownload();
+			}); 
+			</script>
+		
 		</td>
 	</tr>
 
@@ -152,7 +198,8 @@ function fnDelete(){
 <!--// e: box -->
 
 <div class="btn_rwrap">				
-	<button type="button" class="btn_bmbl" onclick="fnModify(); return false;">수정</button>
+	<button type="button" class="btn_bmbl" onclick="fnModify(); return false;">수정 (egov 기본 파일업로드 사용)</button>
+	<button type="button" class="btn_bmbl" onclick="fnModifyJfile(); return false;">수정 (jfile 사용)</button>
 	<button type="button" class="btn_bmbl" onclick="fnDelete(); return false;">삭제</button>
 	<button type="button" class="btn_bmg" onclick="fnList(); return false;">목록</button>
 </div>

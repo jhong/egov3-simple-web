@@ -48,11 +48,15 @@ function fnRegist(){
    	listForm.submit();
 }
 /* ********************************************************
- * 수정 화면 호출 함수
+ * 등록 화면 호출 함수 (jfile 사용)
  ******************************************************** */
-function fnModify(){
-	location.href = "";
+function fnRegistJfile(){
+	var listForm = document.forms["listForm"];
+	listForm.action = "<c:url value='/bbs/SampleBbsJfileEntry.do'/>";
+	listForm.pageIndex.value = 1;
+   	listForm.submit();
 }
+
 /* ********************************************************
  * 상세회면 호출 함수
  ******************************************************** */
@@ -64,18 +68,10 @@ function fnDetail(selectedKey, selectedKey2){
 	varForm.submit();
 }
 /* ********************************************************
- * 삭제 처리 함수
- ******************************************************** */
-function fnDelete(){
-	//
-}
-/* ********************************************************
  * 초기화 작업
  ******************************************************** */
 $(document).ready(function(){
-    // calendar
-    initCal({id:"searchStartDate_img",type:"day",today:"y",icon:"n"});
-    initCal({id:"searchEndDate_img",type:"day",today:"y",icon:"n"});
+
 }); 
 -->
 </script>
@@ -128,12 +124,12 @@ $(document).ready(function(){
                     <label for="searchStartDate" class="blind">기간선택 시작</label>
                     <fmt:formatDate value="${searchVO.searchStartDate}" type="date" pattern="yyyy-MM-dd" var="searchStartDateFormat" />
                     <input type="text" id="searchStartDate" name="searchStartDate" size="11" maxlength="10" value="${searchStartDateFormat}" alt="시작기간 선택" onkeydown="allowNumberOnly(event);" onkeyup="convertDateKeyUp(this);" onfocus="convertDateFocus(this);" onblur="convertDateBlur(this);"/>
-                    <a href="here" onclick="fn_jq_calendar('searchStartDate'); return false;" id="searchStartDate_img" title="검색시작일자 달력창 열림"><img src="${pageContext.request.contextPath}/images/gep/front/ovs/btn_date_s.gif" name="searchStartDate_img" class="" alt="겁색시작일자 달력창 열림" /></a>
+                    <a href="here" onclick="fn_jq_calendar('searchStartDate'); return false;" id="searchStartDate_img" title="검색시작일자 달력창 열림"><img src="${pageContext.request.contextPath}/images/sample/default/calendar.gif" name="searchStartDate_img" class="" alt="겁색시작일자 달력창 열림" /></a>
                     &nbsp;&nbsp;~&nbsp;&nbsp;
                     <label for="searchEndDate" class="blind">기간선택 끝</label>
                     <fmt:formatDate value="${searchVO.searchEndDate}" type="date" pattern="yyyy-MM-dd" var="searchEndDateFormat" />
                     <input type="text" id="searchEndDate" name="searchEndDate" size="11" maxlength="10" value="${searchEndDateFormat}" alt="끝나는 기간 선택" onkeydown="allowNumberOnly(event);" onkeyup="convertDateKeyUp(this);" onfocus="convertDateFocus(this);" onblur="convertDateBlur(this);"/>
-                    <a href="here" onclick="fn_jq_calendar('searchEndDate'); return false;" id="searchEndDate_img" title="검색시작일자 달력창 열림"><img src="${pageContext.request.contextPath}/images/gep/front/ovs/btn_date_s.gif" name="searchEndDate_img" class="" alt="겁색시작일자 달력창 열림" /></a>
+                    <a href="here" onclick="fn_jq_calendar('searchEndDate'); return false;" id="searchEndDate_img" title="검색시작일자 달력창 열림"><img src="${pageContext.request.contextPath}/images/sample/default/calendar.gif" name="searchEndDate_img" class="" alt="겁색시작일자 달력창 열림" /></a>
                 </td>
             </tr>
         </tbody>
@@ -246,10 +242,8 @@ $(document).ready(function(){
 <!--// e: table -->
 
 <div class="btn_rwrap">				
-	<button type="button" class="btn_mbl" onclick="fnRegist();">등록</button>
-	<%--
-	<button type="button" class="btn_mg">다른버튼</button>
-	--%>
+	<button type="button" class="btn_mbl" onclick="fnRegist();">등록 (egov 기본 파일업로드 사용)</button>
+	<button type="button" class="btn_mg" onclick="fnRegistJfile();">등록 (jfile 사용)</button>
 </div>
 
 <!-- s: paging //-->
