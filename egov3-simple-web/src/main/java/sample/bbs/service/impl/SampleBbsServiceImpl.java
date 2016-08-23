@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import sample.bbs.service.SampleBbs;
 import sample.bbs.service.SampleBbsService;
 import sample.bbs.service.SampleBbsVO;
+import egovframework.com.cmm.LoginVO;
+import egovframework.com.cmm.util.EgovUserDetailsHelper;
 import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 
@@ -35,6 +37,29 @@ public class SampleBbsServiceImpl extends EgovAbstractServiceImpl implements Sam
     
     @Resource(name = "egovNttIdGnrService")
     private EgovIdGnrService nttIdgenService;
+
+	/**
+	 * 게시판 등록 화면 호출시 기본 데이터 세팅
+	 */
+	public SampleBbs initSampleBbs(SampleBbs sampleBbs) throws Exception {
+		LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
+
+    	sampleBbs.setNttNo(new BigDecimal(1));
+    	sampleBbs.setAnswerAt("N");
+    	sampleBbs.setParntscttNo(new BigDecimal(0));
+    	sampleBbs.setAnswerLc(new BigDecimal(0));
+//    	sampleBbs.setSortOrdr(new BigDecimal(0)); // insert query 에서 직접 생성함
+    	sampleBbs.setRdcnt(new BigDecimal(0));
+    	sampleBbs.setUseAt("Y");
+    	sampleBbs.setNtceBgnde("10000101            ");
+    	sampleBbs.setNtceEndde("99991231            ");
+    	sampleBbs.setNtcrId(user.getId());
+    	sampleBbs.setNtcrNm(user.getName());
+    	sampleBbs.setFrstRegisterId(user.getUniqId());
+//    	sampleBbs.setFrstRegistPnttm();
+    	
+    	return sampleBbs;
+	}
 
 	/**
 	 * 게시판 을(를) 등록한다.

@@ -10,7 +10,14 @@ import java.util.List;
  * @version 1.0
  */
 public interface SampleBbsService {
-	    
+
+	/**
+	 * 게시판 등록 화면 호출시 기본 데이터 세팅
+	 * @param sampleBbs
+	 * @throws Exception
+	 */
+	SampleBbs initSampleBbs(SampleBbs sampleBbs) throws Exception;
+
 	/**
 	 * 게시판 을(를) 등록한다.
 	 * @param sampleBbs
