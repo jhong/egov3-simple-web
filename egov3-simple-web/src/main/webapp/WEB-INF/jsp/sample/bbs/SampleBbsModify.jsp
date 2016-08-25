@@ -261,12 +261,14 @@ $(document).ready(function(){
 	</tr>
 	<tr>
 		<th scope="row"><label for="nttCn">NTT_CN</label></th>
-		<td>
-			<form:input  path="nttCn" size="-1" maxlength="-1" id="nttCn" />
+		<td colspan="3">
+			<form:textarea  path="nttCn" id="nttCn" cols="70" rows="7" htmlEscape="False" />
 			<form:errors path="nttCn" cssClass="error"/>
 		</td>
+	</tr>
+	<tr>
 		<th scope="row"><label for="answerAt">ANSWER_AT</label></th>
-		<td>
+		<td colspan="3">
 			<form:input  path="answerAt" size="1" maxlength="1" id="answerAt" />
 			<form:errors path="answerAt" cssClass="error"/>
 		</td>

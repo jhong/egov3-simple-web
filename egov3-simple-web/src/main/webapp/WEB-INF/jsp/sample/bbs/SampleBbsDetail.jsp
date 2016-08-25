@@ -97,9 +97,11 @@ $(document).ready(function(){
 	</tr>
 	<tr>
 		<th scope="row">NTT_CN</th>
-		<td> ${result.nttCn}</td>
+		<td colspan="3"> <c:out value="${result.nttCn}" escapeXml="false"/></td>
+	</tr>
+	<tr>
 		<th scope="row">ANSWER_AT</th>
-		<td> ${result.answerAt}</td>
+		<td colspan="3"> ${result.answerAt}</td>
 	</tr>
 	<tr>
 		<th scope="row">PARNTSCTT_NO</th>
