@@ -91,7 +91,7 @@ public class SampleBbsController {
     	
     	LoginVO user = (LoginVO)EgovUserDetailsHelper.getAuthenticatedUser();
     	
-    	return "default_blank/sample/bbs/SampleBbsMasterList.tiles";
+    	return "default_list/sample/bbs/SampleBbsMasterList.tiles";
     }
 
     

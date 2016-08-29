@@ -46,29 +46,35 @@ $(document).ready(function(){
 
 // ]]>
 </script>
-	<!-- s: footer //-->
-	<div id="footer">
-		<div class="ft_link">
-			<ul>
-				<li>
-					<a href="/etc/personal" class="priv">개인정보보호정책</a><span>l</span><a href="/etc/used">이용약관</a>	
-				</li>
-			</ul>
-		</div>
-		<ul>
-			<li class="address">address / TEL:  / FAX: <br/>Copyright &copy; Sample. All rights reserved.</li>
-		</ul>
-		<!-- s: goto top //-->
-		<div class="btn_topwrap">
-			<ul>
-				<li>
-					<!-- 
-					<button type="button" onclick="location.href='#header'" class="btn_top">페이지 상단으로 가기</button>
-					 -->
-					<button type="button" class="btn_top">페이지 상단으로 가기</button>
-				</li>
-			</ul>
-		</div>
-		<!--// e: goto top -->	
-	</div>
-	<!--// e: footer -->
+
+<footer>
+	<section id="footer-area">
+
+		<section id="footer-outer-block">
+			<aside class="footer-segment">
+				<h4>[default] footer.jsp</h4>
+				<ul>
+					<li><a href="#">개인정보보호정책</a></li>
+					<li><a href="#">이용약관</a></li>
+					<li><a href="http://freehtml5templates.com">Free HTML5 Templates</a></li>
+				</ul>
+			</aside><!-- end of #first footer segment -->
+
+			<aside class="footer-segment">
+				<h4> </h4>
+				<p>&copy; 2016 <a href="#">Sample</a>  All rights reserved.</p>
+			</aside><!-- end of #fourth footer segment -->
+
+			<aside class="footer-segment">
+				<h4> </h4>
+				<ul>
+					<li><button type="button" class="btn_top">페이지 상단으로 가기</button></li>
+				</ul>
+			</aside><!-- end of #first footer segment -->
+		</section><!-- end of footer-outer-block -->
+
+	</section><!-- end of footer-area -->
+</footer>
+	
+</div><!-- #wrapper -->
+	

@@ -68,24 +68,18 @@ function getInternetVersion(ver) {
 
 	<tiles:insertAttribute name="header"/> <!-- header : head 종료 / body start 포함 -->
 
-	<!-- s: content //-->
-	<div id="content">
+	<section id="main"><!-- #main content and sidebar area -->
+		<section id="content"><!-- #content -->
+
+			<tiles:insertAttribute name="content">
+				<tiles:putAttribute name="content_include" value="${content_include}"></tiles:putAttribute>
+			</tiles:insertAttribute>
+
+		</section><!-- end of #content -->
 
 		<tiles:insertAttribute name="left"/>
 
-			<!-- s: sub content //-->
-			<div class="sub_content" id="print_container">
-
-				<tiles:insertAttribute name="content">
-					<tiles:putAttribute name="content_include" value="${content_include}"></tiles:putAttribute>
-				</tiles:insertAttribute>
-
-			</div>
-			<!--// e: sub content -->
-
-		</div><!-- // cont_bg -->
-	</div>
-	<!--// e: content -->
+	</section><!-- end of #main content and sidebar-->
 
 	<tiles:insertAttribute name="footer"/>
 

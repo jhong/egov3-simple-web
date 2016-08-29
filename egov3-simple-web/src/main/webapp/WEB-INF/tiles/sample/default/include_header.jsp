@@ -3,9 +3,28 @@
 <%//@ page import ="gep.cmm.GepConstant" %>
 </head>
 <body>
-<!-- s: wrap //-->
-<div id="wrap">
-[default] header.jsp
+<div id="wrapper"><!-- #wrapper -->
+
+	<header><!-- header -->
+		<h1><a href="#">Simple eFovFrame3</a></h1>
+		<h2>[default] header.jsp</h2>
+		<img src="<c:url value='/images/sample/default/headerimg.jpg'/>" width="940" height="200" alt=""><!-- header image -->
+	</header><!-- end of header -->
+	
+	<nav><!-- top nav -->
+		<div class="menu">
+			<ul>
+				<li><a href="#">Home</a></li>
+				<li><a href="#">About</a></li>
+				<li><a href="#">Products</a></li>
+				<li><a href="#">Services</a></li>
+				<li><a href="#">Support</a></li>
+				<li><a href="#">Contact Us</a></li>
+			</ul>
+		</div>
+	</nav><!-- end of top nav -->
+
+
 <%--
 <%
 // 해외전시 최상위메뉴
