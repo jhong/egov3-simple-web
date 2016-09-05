@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import ="sample.cmm.util.SampleMenuUtil" %>
 <%--
 <%@ page import ="gep.cmm.GepConstant" %>
 <%@ page import ="gep.cmm.service.impl.SiteVO" %>
@@ -41,3 +42,4 @@
 
 		</aside><!-- end of sidebar -->
 
+<%=SampleMenuUtil.selectMenuList()%>
