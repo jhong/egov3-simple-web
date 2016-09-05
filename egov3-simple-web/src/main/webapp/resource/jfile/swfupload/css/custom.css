@@ -288,7 +288,7 @@
 	margin-top: 0px;
 	margin-left: 0px;
 	padding: 15px;
-	min-width: 600px;
+	min-width: 300px;
 }
 
 .swfupload-control .title {
@@ -326,7 +326,7 @@
 	background:none repeat scroll 0 0 #F8F8F8;
 	float: left;
 	margin-left: 107px;
-	min-width: 600px;
+	min-width: 300px;
 }
 
 .swfupload-control .content_left {
@@ -339,5 +339,5 @@
 .swfupload-control .content_right {
 	background:none repeat scroll 0 0 #F8F8F8;
 	margin-left: 107px;
-	min-width: 600px;
+	min-width: 300px;
 }

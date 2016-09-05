@@ -8,7 +8,7 @@
 	<header><!-- header -->
 		<h1><a href="#">Simple eFovFrame3</a></h1>
 		<h2>[default] header.jsp</h2>
-		<img src="<c:url value='/images/sample/default/headerimg.jpg'/>" width="940" height="200" alt=""><!-- header image -->
+		<img src="<c:url value='/images/sample/default/headerimg.jpg'/>" width="100%" height="200" alt=""><!-- header image -->
 	</header><!-- end of header -->
 	
 	<nav><!-- top nav -->
