@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import ="egovframework.rte.psl.dataaccess.util.EgovMap" %>
+<%@ page import ="egovframework.com.sym.mnu.mpm.service.MenuManageVO" %>
+<%@ page import ="java.util.List" %>
 <%@ page import ="sample.cmm.util.SampleMenuUtil" %>
+<%@ page import ="sample.cmm.service.MenuNode" %>
+
 <%--
 <%@ page import ="gep.cmm.GepConstant" %>
 <%@ page import ="gep.cmm.service.impl.SiteVO" %>
@@ -17,7 +22,6 @@
 		<aside id="sidebar"><!-- sidebar -->
 				<h3>[default] left.jsp</h3>
 				<ul>
-					<li><a href="#"> </a></li>
 					<%--
 					<li><a href="#">Chat With Friends</a></li>
 					<li><a href="#">Swap Stories</a></li>
@@ -25,6 +29,26 @@
 					<li><a href="#">Buy Stuff</a></li>
 					<li><a href="#">Trade Stuff</a></li>
 					--%>
+<%
+/*
+List menuList = SampleMenuUtil.selectMenuList();
+for (int i=0; menuList!=null && i<menuList.size(); i++) {
+	EgovMap menu = (EgovMap)menuList.get(i);
+	if ("0".equals(menu.get("upperMenuId")+"")) {
+		out.println("<li><a href=\"#\">"+menu.get("menuNm")+"</a></li>");
+	}
+}
+*/
+
+MenuManageVO vo = new MenuManageVO();
+vo.setTmpUniqId("USRCNFRM_00000000000"); // ROLE_ADMIN
+
+MenuNode leftMenuTree = SampleMenuUtil.selectMenuTree(vo);
+//out.println(leftMenuTree);
+StringBuffer sb = new StringBuffer();
+SampleMenuUtil.displayMenuTree(leftMenuTree, leftMenuTree.getDepth(), sb);
+out.print(sb.toString().replaceAll("\\n", "<br/>"));
+%>
 				</ul>
 					
 				<%--
@@ -42,4 +66,3 @@
 
 		</aside><!-- end of sidebar -->
 
-<%=SampleMenuUtil.selectMenuList()%>

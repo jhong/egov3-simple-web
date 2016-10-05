@@ -3,6 +3,7 @@ package egovframework.com.sym.mnu.mpm.service;
 import java.io.InputStream;
 import java.util.List;
 
+import sample.cmm.service.MenuNode;
 import egovframework.com.cmm.ComDefaultVO;
 
 /**
@@ -138,5 +139,30 @@ public interface EgovMenuManageService {
 	 * @exception Exception
 	 */
 	String menuBndeRegist(MenuManageVO vo, InputStream inputStream) throws Exception;
+
+	/**
+	 * MainMenu Head All 조회 by jhong (2016.02.01)
+	 * @param vo MenuManageVO
+	 * @return List
+	 * @exception Exception
+	 */
+	public List<MenuNode> selectMainMenuAll(MenuManageVO vo) throws Exception;
+
+	/**
+	 * MenuNode 구성 by jhong (2016.02.01)
+	 * @param menuList
+	 * @return
+	 * @throws Exception
+	 */
+	public MenuNode makeMenuNode(List<MenuNode> menuList) throws Exception;
+
+	/**
+	 * MenuNode 구성 by jhong (2016.02.23)
+	 * @param menuList
+	 * @param rootMenuNo
+	 * @return
+	 * @throws Exception
+	 */
+	public MenuNode makeMenuNode(List<MenuNode> menuList, String rootMenuNo) throws Exception;
 
 }

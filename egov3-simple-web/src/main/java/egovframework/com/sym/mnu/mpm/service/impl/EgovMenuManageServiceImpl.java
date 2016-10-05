@@ -1,16 +1,8 @@
 package egovframework.com.sym.mnu.mpm.service.impl;
 
 import java.io.InputStream;
+import java.util.Enumeration;
 import java.util.List;
-
-import egovframework.com.cmm.ComDefaultVO;
-import egovframework.com.sym.mnu.mpm.service.EgovMenuManageService;
-import egovframework.com.sym.mnu.mpm.service.MenuManageVO;
-import egovframework.com.sym.prm.service.ProgrmManageVO;
-import egovframework.com.sym.prm.service.impl.ProgrmManageDAO;
-
-import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
-import egovframework.rte.fdl.excel.EgovExcelService;
 
 import javax.annotation.Resource;
 
@@ -22,6 +14,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+
+import sample.cmm.SampleConstant;
+import sample.cmm.service.MenuNode;
+import sample.cmm.util.SampleStringUtil;
+import egovframework.com.cmm.ComDefaultVO;
+import egovframework.com.sym.mnu.mpm.service.EgovMenuManageService;
+import egovframework.com.sym.mnu.mpm.service.MenuManageVO;
+import egovframework.com.sym.prm.service.ProgrmManageVO;
+import egovframework.com.sym.prm.service.impl.ProgrmManageDAO;
+import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
+import egovframework.rte.fdl.excel.EgovExcelService;
 
 /**
  * 메뉴목록관리, 생성, 사이트맵을 처리하는 비즈니스 구현 클래스를 정의한다.
@@ -567,4 +570,134 @@ public class EgovMenuManageServiceImpl extends EgovAbstractServiceImpl implement
 		progrmManageDAO.deleteAllProgrmDtls();
 		return true;
 	}
+	
+	
+	/**
+	 * MainMenu Head All 조회 by jhong (2016.02.01)
+	 * @param vo MenuManageVO
+	 * @return List
+	 * @exception Exception
+	 */
+	@Override
+//	@Cacheable(value="allMenuCache", key="{#vo.tmpUniqId, #vo.tmpUpperMenuId, #vo.tmpDsplySeCode, #vo.authorCode, #vo.searchMenuNoStart, #vo.searchMenuNoEnd}")
+	public List<MenuNode> selectMainMenuAll(MenuManageVO vo) throws Exception {
+		return menuManageDAO.selectMainMenuAll(vo);
+	}
+	
+	/**
+	 * MenuNode 구성 by jhong (2016.02.01)
+	 * @param menuList
+	 * @return
+	 * @throws Exception
+	 */
+	public MenuNode makeMenuNode(List<MenuNode> menuList) throws Exception {
+		return this.makeMenuNode(menuList, "0");
+	}
+	
+	/**
+	 * MenuNode 구성 by jhong (2016.02.01)
+	 * @param menuList
+	 * @param rootMenuNo
+	 * @return
+	 * @throws Exception
+	 */
+	public MenuNode makeMenuNode(List<MenuNode> menuList, String rootMenuNo) throws Exception {
+		MenuNode rootNode = null;
+		if (menuList == null || menuList.size() == 0) return rootNode;
+		if (SampleStringUtil.isEmpty(rootMenuNo) || "null".equals(rootMenuNo)) rootMenuNo = "0";
+		
+		// rootNode
+		rootNode = new MenuNode();
+		rootNode.setMenuNo(new Integer(rootMenuNo));
+		rootNode.setUpperMenuNo(new Integer(rootMenuNo));
+		rootNode.setMenuNm("root");
+		
+		for (MenuNode node : menuList) {
+//			LOGGER.debug("start... node={}", node);
+			
+			if (node.getMenuNo() == 0) {
+				if (rootNode == null) {
+					rootNode = node;
+				}
+				continue;
+			}
+			
+			addChildMenu(rootNode, node, 0);
+//			LOGGER.debug("makeMenuNode() rootNode.getChildCount()={}", rootNode == null ? 0 : rootNode.getChildCount());
+		}
+		
+		LOGGER.debug("makeMenuNode() rootNode={}", rootNode);
+//		this.traversalMenu(rootNode);
+		
+		return rootNode;
+	}
+
+	/**
+	 * child 메뉴 추가  by jhong (2016.02.01)
+	 * @param parentNode
+	 * @param node
+	 * @throws Exception
+	 */
+	public void addChildMenu(MenuNode parentNode, MenuNode node, int menuNoLevel2) throws Exception {
+		if (parentNode == null) return;
+		
+		if (node.getUpperMenuNo() == parentNode.getMenuNo()) {
+			parentNode.add(node);
+			return;
+		}
+		
+		Enumeration children = parentNode.children();
+		while (children.hasMoreElements()) {
+			MenuNode child = (MenuNode)children.nextElement();
+			
+			if (child.getLevel() == 2) menuNoLevel2 = child.getMenuNo();
+			
+			if (node.getUpperMenuNo() == child.getMenuNo()) {
+				setMenuUrl(child, node, true); // 상위 노드에 URL 설정
+				node.setMenuNoLevel2(menuNoLevel2);  // LEVEL 1 노드 값을 세팅
+				child.add(node);
+				//LOGGER.debug("add node... child.getMenuNo()={}", child.getMenuNo()+", node="+node);
+				break;
+			}
+			
+			if (!child.isLeaf()) addChildMenu(child, node, menuNoLevel2);
+		}
+	}
+
+	/**
+	 * Program Name이 dir인 경우 URL 세팅  by ljh (2016.04.28)
+	 * @param parentNode
+	 * @param node
+	 * @throws Exception
+	 */
+	public void setMenuUrl(MenuNode parentNode, MenuNode node, boolean reqCheck) throws Exception {
+		if (parentNode == null) return;
+		
+		if (SampleStringUtil.isEmpty(parentNode.getProgrmFileNm()) || SampleStringUtil.equals(SampleConstant.MENU_PROGRM_FILE_NM_DIR, parentNode.getProgrmFileNm())) {
+			if (reqCheck) {
+				if (parentNode.getMenuNo() == parentNode.getLinkMenuNo()) {
+					parentNode.setProgrmFileNm(node.getProgrmFileNm());
+					parentNode.setLinkMenuNo(node.getLinkMenuNo());
+					parentNode.setLinkUpperMenuNoo(node.getLinkUpperMenuNo());
+				}
+				if (!parentNode.isRoot()) setMenuUrl((MenuNode)parentNode.getParent(), node, false);
+			} else {
+				if (parentNode.getLevel() == 2) {
+					// 메뉴가 3단 구조 이므로 처리 가능함.
+					if (parentNode.getLinkMenuNo() == node.getLinkUpperMenuNo()) {
+						parentNode.setProgrmFileNm(node.getProgrmFileNm());
+						parentNode.setLinkMenuNo(node.getLinkMenuNo());
+						parentNode.setLinkUpperMenuNoo(node.getLinkUpperMenuNo());
+						if (!parentNode.isRoot()) setMenuUrl((MenuNode)parentNode.getParent(), node, false);
+					}
+				} else {
+					parentNode.setProgrmFileNm(node.getProgrmFileNm());
+					parentNode.setLinkMenuNo(node.getLinkMenuNo());
+					parentNode.setLinkUpperMenuNoo(node.getLinkUpperMenuNo());
+					if (!parentNode.isRoot()) setMenuUrl((MenuNode)parentNode.getParent(), node, false);
+				}
+			}
+		}
+	}
+
 }

@@ -7,6 +7,20 @@
     <typeAlias  alias="menuManageVO" type="egovframework.com.sym.mnu.mpm.service.MenuManageVO"/>
 	<typeAlias  alias="comDefaultVO" type="egovframework.com.cmm.ComDefaultVO"/>
 	
+	<resultMap id="menuNode" class="sample.cmm.service.MenuNode">
+		<result property="menuNo" column="menuNo" />
+		<result property="menuOrdr" column="menuOrdr" />
+		<result property="menuNm" column="menuNm" />
+		<result property="upperMenuNo" column="upperMenuNo" />
+		<!-- <result property="menuDc" column="menuDc" /> -->
+		<result property="relateImagePath" column="relateImagePath" />
+		<result property="relateImageNm" column="relateImageNm" />
+		<result property="progrmFileNm" column="progrmFileNm" />
+		<result property="authorCode" column="authorCode" />
+		<result property="linkMenuNo" column="linkMenuNo" />
+		<result property="linkUpperMenuNo" column="linkUpperMenuNo" />
+	</resultMap>
+	
 	<select id="menuManageDAO.selectMainMenuHead" parameterClass="MenuManageVO" resultClass="egovMap">
 		<![CDATA[ 
             SELECT
@@ -86,4 +100,33 @@
 			       AND   B.UPPER_MENU_NO = #menuNo#)
 		]]> 
 	</select>
+	
+	<select id="menuManageDAO.selectMainMenuAll" parameterClass="MenuManageVO" resultMap="menuNode">
+		<![CDATA[ 
+			SELECT
+			       B.MENU_NO           AS menuNo
+			     , B.MENU_ORDR         AS menuOrdr
+			     , B.MENU_NM           AS menuNm
+			     , B.UPPER_MENU_NO     AS upperMenuNo
+			     , B.RELATE_IMAGE_PATH AS relateImagePath
+			     , B.RELATE_IMAGE_NM   AS relateImageNm
+			     , C.URL               AS progrmFileNm
+			     , A.AUTHOR_CODE       AS authorCode
+			     , B.MENU_NO           AS linkMenuNo
+			     , B.UPPER_MENU_NO     AS linkUpperMenuNo
+			  FROM COMTNMENUCREATDTLS A, COMTNMENUINFO B, COMTNPROGRMLIST C
+			 WHERE A.MENU_NO = B.MENU_NO
+			   AND B.PROGRM_FILE_NM = C.PROGRM_FILE_NM(+)
+			   AND A.AUTHOR_CODE = (SELECT AUTHOR_CODE from COMTNEMPLYRSCRTYESTBS WHERE SCRTY_DTRMN_TRGET_ID = #tmpUniqId#)
+		]]>
+			<!--
+			<isNotEmpty property="tmpDsplySeCode">
+				AND B.DSPLY_SE_CODE = #tmpDsplySeCode#
+			</isNotEmpty>
+			-->
+		<![CDATA[ 
+			ORDER BY B.UPPER_MENU_NO, B.MENU_ORDR, B.MENU_NO
+		]]>
+	</select>
+	
 </sqlMap>                            

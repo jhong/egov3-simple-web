@@ -1,5 +1,7 @@
 package egovframework.com.sym.mnu.mpm.service;
 
+import sample.cmm.util.SampleStringUtil;
+
 /** 
  * 메뉴목록관리 처리를 위한 VO 클래스르를 정의한다
  * @author 개발환경 개발팀 이용
@@ -68,6 +70,21 @@ public class MenuManageVO{
    /** tmp_Cmd */
    private   String   tmpCmd;
    
+   
+	/** tmp_UpperMenuId by jhong (2016.02.23) */
+	private String tmpUpperMenuId;
+
+	/** 디스플레이구분코드 by jhong (2016.02.16) */
+	private String tmpDsplySeCode;
+
+	/** 권한코드 by jhong (2016.02.25) */
+	private String tmpAuthorCode;
+
+	/** 메뉴검색조건 추가 by jhong (2016.02.16) */
+	private String searchMenuNoStart;
+	private String searchMenuNoEnd;
+
+	
 	/**
 	 * menuNo attribute를 리턴한다.
 	 * @return int
@@ -350,4 +367,43 @@ public class MenuManageVO{
 	public void setTempInt(int tempInt) {
 		this.tempInt = tempInt;
 	}
+	public String getTmpUpperMenuId() {
+		return tmpUpperMenuId;
+	}
+	public void setTmpUpperMenuId(String tmpUpperMenuId) {
+		this.tmpUpperMenuId = tmpUpperMenuId;
+	}
+	public String getTmpDsplySeCode() {
+		return tmpDsplySeCode;
+	}
+	public void setTmpDsplySeCode(String tmpDsplySeCode) {
+		this.tmpDsplySeCode = tmpDsplySeCode;
+	}
+	public String getTmpAuthorCode() {
+		return tmpAuthorCode;
+	}
+	public void setTmpAuthorCode(String tmpAuthorCode) {
+		this.tmpAuthorCode = tmpAuthorCode;
+	}
+	public String getSearchMenuNoStart() {
+		return searchMenuNoStart;
+	}
+	public void setSearchMenuNoStart(String searchMenuNoStart) {
+		this.searchMenuNoStart = searchMenuNoStart;
+	}
+	public String getSearchMenuNoEnd() {
+		return searchMenuNoEnd;
+	}
+	public void setSearchMenuNoEnd(String searchMenuNoEnd) {
+		this.searchMenuNoEnd = searchMenuNoEnd;
+	}
+	
+	/**
+	 * toString
+	 * @return String
+	 */
+	public String toString() {
+		return SampleStringUtil.reflectionToString(this);
+	}
+	
 }
